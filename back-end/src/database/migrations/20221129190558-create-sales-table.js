@@ -11,12 +11,22 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        foreignKey: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'id',
+        },       
         allowNull: false,
       },
       seller_id: {
         type: Sequelize.INTEGER,
-        foreignKey: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'users',
+          key: 'id',
+        },
         allowNull: false,
       },
       total_price: {

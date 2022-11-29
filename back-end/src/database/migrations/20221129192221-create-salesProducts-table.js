@@ -6,13 +6,23 @@ module.exports = {
       sale_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        foreignKey: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'sales',
+          key: 'id',
+        },
         allowNull: false,
       },
       product_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        foreignKey: true,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'products',
+          key: 'id',
+        },    
         allowNull: false,
       },
       quantity: {
