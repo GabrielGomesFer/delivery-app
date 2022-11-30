@@ -6,7 +6,11 @@ export const SForm = styled.form`
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding-top: 40%;
+
+  img {
+    height: 200px;
+    margin-top: 20px;
+  }
 `;
 
 export const SContainer = styled.div`
