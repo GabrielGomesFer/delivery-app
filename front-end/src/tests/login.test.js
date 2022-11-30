@@ -1,42 +1,41 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
-import userEvent from '@testing-library/user-event';
 
 describe('Testa a página de login', () => {
-    it('Verifica funcionalidade do login', () => {
-		const { history } = renderWithRouter(<App />)
+  it('Verifica funcionalidade do login', () => {
+    const { history } = renderWithRouter(<App />);
 
-		const inputEmail = screen.getByTestId('common_login__input-email');
-		const inputPassword =  screen.getByTestId('common_login__input-password');
-		const button = screen.getByTestId('common_login__button-login');
+    const inputEmail = screen.getByTestId('common_login__input-email');
+    const inputPassword = screen.getByTestId('common_login__input-password');
+    const button = screen.getByTestId('common_login__button-login');
 
-		expect(inputEmail).toBeInTheDocument();
-		expect(inputPassword).toBeInTheDocument();
-		expect(button).toBeInTheDocument();
+    expect(inputEmail).toBeInTheDocument();
+    expect(inputPassword).toBeInTheDocument();
+    expect(button).toBeInTheDocument();
 
-		expect(button).toBeDisabled();
+    expect(button).toBeDisabled();
 
-		userEvent.type(inputEmail, 'zebirita.com');
-		userEvent.type(inputPassword, '$#zeb');
+    userEvent.type(inputEmail, 'zebirita.com');
+    userEvent.type(inputPassword, '$#zeb');
 
-		expect(button).toBeDisabled();
-		
+    expect(button).toBeDisabled();
 
-		userEvent.type(inputEmail, 'zebirita@email.com');
-		userEvent.type(inputPassword, '$#zebirita#$');
+    userEvent.type(inputEmail, 'zebirita@email.com');
+    userEvent.type(inputPassword, '$#zebirita#$');
 
-		expect(button).not.toBeDisabled();
+    expect(button).not.toBeDisabled();
 
-		userEvent.click(button);
+    userEvent.click(button);
 
-		expect(history.location.pathname).toBe('/customer/products');
-  })
+    expect(history.location.pathname).toBe('/customer/products');
+  });
 
   it('Testa se mensagem de erro aparece', () => {
     const inputEmail = screen.getByTestId('common_login__input-email');
-    const inputPassword =  screen.getByTestId('common_login__input-password');
+    const inputPassword = screen.getByTestId('common_login__input-password');
     const button = screen.getByTestId('common_login__button-login');
     const errorMessage = screen.getByTestId('common_login__element-invalid-email');
 
@@ -54,10 +53,10 @@ describe('Testa a página de login', () => {
     userEvent.click(button);
 
     expect(errorMessage).toBeInTheDocument();
-})
+  });
 
-it('Testa se mensagem de erro aparece', () => {
-    const { history } = renderWithRouter(<App />)
+  it('Vai para página de criar nova conta', () => {
+    const { history } = renderWithRouter(<App />);
 
     const createAccountButton = screen.getByTestId('common_login__button-register');
 
@@ -68,5 +67,5 @@ it('Testa se mensagem de erro aparece', () => {
     userEvent.click(createAccountButton);
 
     expect(history.location.pathname).toBe('/register');
-})
-})
+  });
+});
