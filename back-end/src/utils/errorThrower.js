@@ -4,6 +4,6 @@ const errorThrower = (statusCode, message) => {
     message,
   };
   throw error;
-}
+};
 
 module.exports = errorThrower;

@@ -6,4 +6,4 @@ const router = Router();
 
 router.post('/register', validationToken, userController.register);
 
-module.exports = router
+module.exports = router;

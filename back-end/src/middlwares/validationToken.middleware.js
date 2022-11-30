@@ -1,4 +1,4 @@
-const { verifyToken } = require("../utils/JWT");
+const { verifyToken } = require('../utils/JWT');
 
 const validationToken = (req, res, next) => {
   const { originalUrl } = req;
@@ -11,6 +11,6 @@ const validationToken = (req, res, next) => {
   const user = verifyToken(authorization);
   req.user = { ...user };
   next();  
-}
+};
 
 module.exports = validationToken;

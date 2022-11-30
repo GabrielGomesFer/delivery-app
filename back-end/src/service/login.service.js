@@ -1,6 +1,6 @@
+const md5 = require('md5');
 const { User } = require('../database/models');
 const { generateToken } = require('../utils/JWT');
-const md5 = require('md5');
 const errorThrower = require('../utils/errorThrower');
 
 const login = async ({ email, password }) => {
@@ -16,5 +16,4 @@ const login = async ({ email, password }) => {
 
 module.exports = {
   login,
-} 
-  
+};

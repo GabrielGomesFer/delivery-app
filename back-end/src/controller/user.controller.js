@@ -5,7 +5,7 @@ const register = async (req, res) => {
 
   const newUser = await userService.register(body, user);
   return res.status(201).json(newUser);
-}
+};
 
 module.exports = {
   register,
