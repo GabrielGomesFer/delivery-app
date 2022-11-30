@@ -6,10 +6,20 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [disable, setDisable] = useState(true);
 
+  const verifyInputEmail = ({ target: { value } }) => {
+    const regexValidation = /\S+@\w+\.\w+/i;
+    const finalValidation = regexValidation.test(email);
+    setEmail(value);
+    setDisable(finalValidation);
+  };
   return (
     <SForm>
-      <p>CADASTRO</p>
+      <img
+        src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
+        alt="logo UNOSSO"
+      />
       <SContainer>
         <label htmlFor="name">
           Nome
@@ -30,7 +40,7 @@ function Register() {
             placeholder="digite o seu email"
             name="email"
             value={ email }
-            onChange={ ({ target: { value } }) => setEmail(value) }
+            onChange={ verifyInputEmail }
             data-testid="common_register__input-email"
           />
         </label>
@@ -48,11 +58,12 @@ function Register() {
         </label>
       </SContainer>
       <SButtons>
-        <Link to="/products">
+        <Link to="/customer/products">
           <button
             type="button"
             data-testid="common_register__button-register"
             style={ { backgroundColor: '#E2B659' } }
+            disabled={ !disable || password.length <= '6' || name.length <= '12' }
           >
             Cadastrar
           </button>

@@ -1,8 +1,8 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from './helper/renderWithRouter';
+import React from 'react';
 import App from '../App';
+import renderWithRouter from './helper/renderWithRouter';
 
 describe('Testa a página de login', () => {
   it('Verifica funcionalidade do login', () => {
@@ -34,24 +34,24 @@ describe('Testa a página de login', () => {
   });
 
   it('Testa se mensagem de erro aparece', () => {
+    renderWithRouter(<App />);
+
     const inputEmail = screen.getByTestId('common_login__input-email');
     const inputPassword = screen.getByTestId('common_login__input-password');
     const button = screen.getByTestId('common_login__button-login');
-    const errorMessage = screen.getByTestId('common_login__element-invalid-email');
 
     expect(inputEmail).toBeInTheDocument();
     expect(inputPassword).toBeInTheDocument();
     expect(button).toBeInTheDocument();
-
     expect(button).toBeDisabled();
 
     userEvent.type(inputEmail, 'zebirita3@email.com');
     userEvent.type(inputPassword, '$#zebirita#$');
 
     expect(button).not.toBeDisabled();
-
     userEvent.click(button);
 
+    const errorMessage = screen.queryByTestId('common_login__element-invalid-email');
     expect(errorMessage).toBeInTheDocument();
   });
 
