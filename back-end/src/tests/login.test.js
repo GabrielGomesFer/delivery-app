@@ -1,11 +1,11 @@
-import * as sinon from 'sinon';
-import * as chai from 'chai';
+const sinon = require("sinon");
+
+const chai = require("chai");
 
 const chaiHttp = require('chai-http');
 
-import { app } from '../app';
-import User from '../database/models/User';
-import { describe } from 'pm2';
+const { app } = require('../api/app')
+const User = require('../database/models/User');
 
 chai.use(chaiHttp);
 
