@@ -46,7 +46,7 @@ body {
   background-color: #412728;
   color: white;
   height: 100vh;
-  margin: 0 auto;
+  margin: auto;
   max-width: 414px;
   width: 100%;
 }
