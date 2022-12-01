@@ -62,3 +62,21 @@ export const SButtons = styled.div`
     opacity: 0.3;
   }
 `;
+
+export const SError = styled.div`
+  display: flex;
+  width: 60%;
+  height: 30px;
+  font-weight: 700;
+  font-size: 80%;
+  border-radius: 4px;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #F9F871;
+  color: #412728;
+  padding: 5px;
+  margin: 50px 164px;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+`;
