@@ -10,8 +10,9 @@ const login = async ({ email, password }) => {
   if (!user) errorThrower(404, 'Incorrect email or password');
 
   const token = generateToken(user);
+  const { name, email: emailUser, role } = user;
 
-  return token;
+  return { name, email: emailUser, role, token };
 };
 
 module.exports = {
