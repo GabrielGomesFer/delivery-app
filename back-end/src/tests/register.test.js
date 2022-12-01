@@ -1,11 +1,13 @@
-import * as sinon from 'sinon';
-import * as chai from 'chai';
+const sinon = require("sinon");
+
+const chai = require("chai");
+
+// import * as chai from 'chai';
 
 const chaiHttp = require('chai-http');
 
-import { app } from '../app';
-import User from '../database/models/User';
-import { describe } from 'pm2';
+const { app } = require('../api/app')
+const User = require('../database/models/User');
 
 chai.use(chaiHttp);
 
@@ -29,8 +31,8 @@ describe('Rota /Register', () => {
            .request(app)
            .post('/register')
            .send({ name: 'Cliente Teste', email: 'zebirita@email.com', password: '123456', })
-           expect(httpResponse.status).to.equal(400);
-           expect(httpResponse.body).to.be.deep.equal({ message: 'Invalid Email' });  
+           expect(httpResponse.status).to.equal(409);
+           expect(httpResponse.body).to.be.deep.equal({ message: 'User alredy registered' });
       })
 
       it('quando o name está menor do que 12 ou não existe', async () => {

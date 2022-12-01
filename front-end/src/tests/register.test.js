@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
@@ -7,6 +7,7 @@ import App from '../App';
 describe('Testa a página de Registro', () => {
   it('Verifica funcionalidade do Registro', () => {
     const { history } = renderWithRouter(<App />);
+    history.push('/register');
 
     const inputName = screen.getByTestId('common_register__input-name');
     const inputEmail = screen.getByTestId('common_register__input-email');
@@ -38,7 +39,10 @@ describe('Testa a página de Registro', () => {
     expect(history.location.pathname).toBe('/customer/products');
   });
 
-  it('Testa se mensagem de erro aparece', () => {
+  it('Testa se mensagem de erro aparece', async () => {
+    const { history } = renderWithRouter(<App />);
+    history.push('/register');
+
     const inputName = screen.getByTestId('common_register__input-name');
     const inputEmail = screen.getByTestId('common_register__input-email');
     const inputPassword = screen.getByTestId('common_register__input-password');
@@ -66,6 +70,6 @@ describe('Testa a página de Registro', () => {
 
     userEvent.click(button);
 
-    expect(errorMessage).toBeInTheDocument();
+    waitFor(() => expect(errorMessage).toBeInTheDocument());
   });
 });
