@@ -2,6 +2,7 @@ const md5 = require('md5');
 const { Op } = require('sequelize');
 const { User } = require('../database/models');
 const errorThrower = require('../utils/errorThrower');
+const { generateToken } = require('../utils/JWT');
 
 const register = async ({ name, email, password, role = 'customer' }, user) => {
   // New validation
@@ -25,7 +26,9 @@ const register = async ({ name, email, password, role = 'customer' }, user) => {
     role,
   });
 
-  return { name: newUser.name, email: newUser.email, role: newUser.role };
+  const token = generateToken(newUser); 
+
+  return { name: newUser.name, email: newUser.email, role: newUser.role, token };
 };
 
 module.exports = {
