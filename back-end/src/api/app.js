@@ -1,4 +1,5 @@
 require('express-async-errors');
+const cors = require('cors');
 const express = require('express');
 const loginRouter = require('../routes/login.router');
 const userRouter = require('../routes/user.router');
