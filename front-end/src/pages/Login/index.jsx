@@ -9,6 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const verifyInputEmail = ({ target: { value } }) => {
     const regexValidation = /\S+@\w+\.\w+/i;
@@ -31,10 +32,11 @@ function Login() {
         setPassword('');
         history.push('/costumer/products');
       })
-      .catch(() => {
+      .catch((err) => {
         setEmail('');
         setPassword('');
         setError(true);
+        setErrorMessage(err.response.data.message);
         setTimeout(() => setError(false), '5' * '1000');
       });
   };
@@ -63,7 +65,7 @@ function Login() {
           <label htmlFor="password">
             Senha
             <input
-              type="password"
+              type="text"
               placeholder="digite a sua senha"
               name="password"
               value={ password }
@@ -97,7 +99,7 @@ function Login() {
           <p
             data-testid="common_login__element-invalid-email"
           >
-            Usuário e senha inválidos!
+            {errorMessage ?? 'Usuário e senha inválidos!'}
           </p>
         </SError>
       )}
