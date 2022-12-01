@@ -8,7 +8,7 @@ const secret = process.env.JWT_SECRET_KEY;
 
 const generateToken = ({ role, email, name }) => {
   const payload = {
-    role, email, name
+    role, email, name,
   };
 
   const config = {
