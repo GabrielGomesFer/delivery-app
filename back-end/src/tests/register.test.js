@@ -29,6 +29,14 @@ describe("Rota /Register", () => {
   afterEach(() => sinon.restore());
 
   it("quando o email já existe", async () => {
+    sinon.stub(User, "findOne").resolves({dataValues: {
+      id: 4,
+      name: "Cliente Teste",
+      role: "customer",
+      email: "cliente@teste.com",
+      password: "1c37466c159755ce1fa181bd247cb925",
+    }});
+
     const httpResponse = await chai.request(app).post("/user/register").send({
       name: "Cliente Teste",
       email: "zebirita@email.com",
