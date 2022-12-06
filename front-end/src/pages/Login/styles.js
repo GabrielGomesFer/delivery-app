@@ -9,7 +9,6 @@ export const SForm = styled.form`
 
   img {
     height: 200px;
-    margin-top: 20px;
   }
 `;
 
