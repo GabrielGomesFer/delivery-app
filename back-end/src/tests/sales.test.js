@@ -94,6 +94,8 @@ describe("Rota /sales", () => {
 
     sinon.stub(User, "create").resolves(mockedSend);
 
+    sinon.stub(jwt, 'verify').resolves(true);
+
     const httpResponse = await chai.request(app)
     .post("/user/sales")
     .send({
@@ -114,6 +116,8 @@ describe("Rota /sales", () => {
     sinon.stub(User, "findOne").resolves(mockedUser);
     sinon.stub(Products, "findByPK").resolves();
     sinon.stub(SaleProduct, "create").resolves(mockedSend);
+
+    sinon.stub(jwt, 'verify').resolves(true);
 
     const httpResponse = await chai.request(app)
     .post("/user/sales")
@@ -136,6 +140,8 @@ describe("Rota /sales", () => {
     sinon.stub(Products, "findByPK").resolves(mockStubProducts);
     sinon.stub(SaleProduct, "create").resolves(mockedSend);
 
+    sinon.stub(jwt, 'verify').resolves(true);
+
     const httpResponse = await chai.request(app)
     .post("/user/sales")
     .send({
@@ -148,5 +154,46 @@ describe("Rota /sales", () => {
 
     expect(httpResponse.status).to.equal(404);
     expect(httpResponse.body).to.be.deep.equal({ message: 'User not found'  });
+  });
+
+  it("get /sales/:id funcionando", async () => {
+
+    sinon.stub(User, "findOne").resolves(mockedSend);
+
+    sinon.stub(jwt, 'verify').resolves(true);
+
+    const httpResponse = await chai.request(app)
+    .get("/user/sales/1")
+    .set("Authorization", sellerToken);
+
+    expect(httpResponse.status).to.equal(200);
+    expect(httpResponse.body).to.be.deep.equal(mockedSend);
+  });
+
+  it("get /sales/:id id não encontrado", async () => {
+
+    sinon.stub(User, "findOne").resolves();
+
+    sinon.stub(jwt, 'verify').resolves(true);
+
+    const httpResponse = await chai.request(app)
+    .get("/user/sales/12584999")
+    .set("Authorization", sellerToken);
+
+    expect(httpResponse.status).to.equal(404);
+    expect(httpResponse.body).to.be.deep.equal({ message: 'Sale not found'  });
+  });
+
+  it("get /sales/:id token inválido", async () => {
+
+    sinon.stub(User, "findOne").resolves();
+
+    sinon.stub(jwt, 'verify').resolves(false);
+
+    const httpResponse = await chai.request(app)
+    .get("/user/sales/1");
+
+    expect(httpResponse.status).to.equal(401);
+    expect(httpResponse.body).to.be.deep.equal({ message: "Token not found" });    
   });
 });
