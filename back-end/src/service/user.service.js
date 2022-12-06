@@ -30,11 +30,22 @@ const register = async ({ name, email, password, role = 'customer' }, user) => {
 };
 
 const getUserByRole = async (queryRole) => {
-  const users = await User.findAll({ where: { role: queryRole }, attributes: { exclude: ['password'] } });
+  const users = await User.findAll({
+    where: { role: queryRole },
+    attributes: { exclude: ['password'] },
+  });
   return users;
-}
+};
+
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({
+    where: { email },
+  });
+  return user;
+};
 
 module.exports = {
   register,
   getUserByRole,
+  getUserByEmail,
 };
