@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
@@ -18,7 +18,7 @@ describe('Testa a página de login', () => {
 
     expect(button).toBeDisabled();
 
-    userEvent.type(inputEmail, 'zebirita.com');
+    userEvent.type(inputEmail, 'zebirita@email.com');
     userEvent.type(inputPassword, '$#zeb');
 
     expect(button).toBeDisabled();
@@ -30,7 +30,7 @@ describe('Testa a página de login', () => {
 
     userEvent.click(button);
 
-    expect(history.location.pathname).toBe('/customer/products');
+    waitFor(() => expect(history.location.pathname).toBe('/customer/products'));
   });
 
   it('Testa se mensagem de erro aparece', () => {
