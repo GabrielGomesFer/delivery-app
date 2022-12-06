@@ -53,12 +53,18 @@ function CustomerButton({ id, name, price, urlImage }) {
         size={ 25 }
         onClick={ () => count > 1 && decreaseCount() }
         style={ { cursor: 'pointer' } }
+        data-testid={ `customer_products__button-card-rm-item-${id}` }
       />
-      <span>{ count ?? '0' }</span>
+      <span
+        data-testid={ `customer_products__input-card-quantity-${id}` }
+      >
+        { count ?? '0' }
+      </span>
       <PlusCircle
         size={ 25 }
         onClick={ () => incrementCount() }
         style={ { cursor: 'pointer' } }
+        data-testid={ `customer_products__button-card-add-item-${id}` }
       />
     </SInfos>
   );
