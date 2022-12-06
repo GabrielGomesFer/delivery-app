@@ -19,19 +19,39 @@ function Header({ title, url }) {
   }, []);
 
   const logOut = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     history.push('/');
   };
 
   return (
     <SContainer>
       <SProducts>
-        <a href={ url }>{ title }</a>
-        {user.role === 'customer' && <a href="/customer/orders">Meus Pedidos</a>}
+        <a
+          data-testid="customer_products__element-navbar-link-products"
+          href={ url }
+        >
+          { title }
+        </a>
+        {user.role === 'customer' && (
+          <a
+            data-testid="customer_products__element-navbar-link-orders"
+            href="/customer/orders"
+          >
+            Meus Pedidos
+          </a>
+        )}
       </SProducts>
       <SUser>
-        <p>{ user.name }</p>
-        <button type="button" onClick={ () => logOut() }>
+        <p
+          data-testid="customer_products__element-navbar-user-full-name"
+        >
+          { user.name }
+        </p>
+        <button
+          data-testid="customer_products__element-navbar-link-logout"
+          type="button"
+          onClick={ () => logOut() }
+        >
           <SignOut size={ 20 } color="#fffafa" />
           <p>Sair</p>
         </button>

@@ -32,10 +32,18 @@ function CustomerProducts() {
       <SWrapper>
         {products?.map(({ id, name, price, urlImage }) => (
           <SContainer key={ id }>
-            <img src="https://user-images.githubusercontent.com/99758843/206025746-bba71fe8-5f10-4192-afc6-f130fb2e619c.jpeg" alt={ name } />
+            <img
+              src={ urlImage }
+              alt={ name }
+              data-testid={ `customer_products__img-card-bg-image-${id}` }
+            />
             <SText>
-              <p>{name}</p>
-              <p>{`R$ ${price}`}</p>
+              <p data-testid={ `customer_products__element-card-title-${id}` }>{name}</p>
+              <p
+                data-testid={ `customer_products__element-card-price-${id}` }
+              >
+                {`R$ ${price}`}
+              </p>
             </SText>
             <CustomerButton
               id={ id }
