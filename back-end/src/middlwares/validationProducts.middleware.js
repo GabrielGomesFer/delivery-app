@@ -7,7 +7,7 @@ const verifyProducts = async (req, res, next) => {
     .map(async ({ productId }) => Product.findByPk(productId)));  
   const products = modelResult.every((productResult) => productResult);
 
-  if (!products) res.status(404).json({ message: 'Some product not found' });
+  if (!products) return res.status(404).json({ message: 'Some product not found' });
   next();
 };
 

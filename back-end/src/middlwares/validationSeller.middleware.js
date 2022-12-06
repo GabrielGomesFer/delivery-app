@@ -5,7 +5,7 @@ const verifySeller = async (req, res, next) => {
 
   const seller = await User.findByPk(sellerId);
 
-  if (!seller) res.status(404).json({ message: 'Seller not found!' });
+  if (!seller) return res.status(404).json({ message: 'Seller not found!' });
   next();
 };
 
