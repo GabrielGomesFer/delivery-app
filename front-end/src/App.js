@@ -1,16 +1,23 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
-import Products from './pages/Products';
 import Register from './pages/Register';
+import AdminManage from './pages/Roles/Admin/AdminManage';
+import CustomerProducts from './pages/Roles/Customer/CustomerProducts';
+import SellerOrders from './pages/Roles/Seller/SellerOrders';
 
 function App() {
   return (
     <div className="main">
       <Switch>
-        <Route exact path="/" component={ Login } />
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
+        <Route path="/login" component={ Login } />
         <Route path="/register" component={ Register } />
-        <Route path="/customer/products" component={ Products } />
+        <Route path="/customer/products" component={ CustomerProducts } />
+        <Route path="/seller/orders" component={ SellerOrders } />
+        <Route path="/admin/manage" component={ AdminManage } />
       </Switch>
     </div>
   );
