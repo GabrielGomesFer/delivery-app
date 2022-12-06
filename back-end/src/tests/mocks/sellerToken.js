@@ -1,0 +1,4 @@
+const sellerToken =
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtQGRlbGl2ZXJ5YXBwLmNvbSIsIm5hbWUiOiJEZWxpdmVyeSBBcHAgQWRtaW4iLCJpYXQiOjE2NzAzNDg1NTcsImV4cCI6MTY3MDk1MzM1N30.PBI420Z9eNXC7PHaRT7_PGOmGDsyx9sVjoOpbvgmJCg';
+
+module.exports = { sellerToken }
