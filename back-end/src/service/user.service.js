@@ -5,19 +5,17 @@ const errorThrower = require('../utils/errorThrower');
 const { generateToken } = require('../utils/JWT');
 
 const register = async ({ name, email, password, role = 'customer' }, user) => {
-  // New validation
   if (user && user.role !== 'administrator') errorThrower(401, 'You shall not pass!');
 
   const encodedPassword = md5(password);
-  const isAlreadyUserExist = await User.findOne({ where: {
+  const isAlredyUserExist = await User.findOne({ where: {
     [Op.or]: [
       { email },
       { name },
     ],
   } });
 
-  // New validation
-  if (isAlreadyUserExist) errorThrower(409, 'User already registered');
+  if (isAlredyUserExist) errorThrower(409, 'User alredy registered');
   
   const { dataValues: newUser } = await User.create({
     name,
@@ -31,6 +29,23 @@ const register = async ({ name, email, password, role = 'customer' }, user) => {
   return { name: newUser.name, email: newUser.email, role: newUser.role, token };
 };
 
+const getUserByRole = async (queryRole) => {
+  const users = await User.findAll({
+    where: { role: queryRole },
+    attributes: { exclude: ['password'] },
+  });
+  return users;
+};
+
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({
+    where: { email },
+  });
+  return user;
+};
+
 module.exports = {
   register,
+  getUserByRole,
+  getUserByEmail,
 };
