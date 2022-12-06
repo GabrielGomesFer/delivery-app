@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jwt-decode';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { SButtons, SContainer, SError, SForm } from './styles';
+import { SButtons, SContainer, SDiv, SError, SForm } from './styles';
 
 function Login() {
   const history = useHistory();
@@ -50,7 +50,7 @@ function Login() {
   };
 
   return (
-    <>
+    <SDiv>
       <SForm>
         <img
           src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
@@ -111,7 +111,7 @@ function Login() {
           </p>
         </SError>
       )}
-    </>
+    </SDiv>
   );
 }
 

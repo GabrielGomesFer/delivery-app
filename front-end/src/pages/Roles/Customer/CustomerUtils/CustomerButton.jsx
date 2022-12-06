@@ -16,7 +16,7 @@ function CustomerButton({ id, name, price, urlImage }) {
         price,
         urlImage,
         qtd: count - 1,
-        newPrice: price.toFixed(2) * (count - 1),
+        newPrice: price * (count - 1),
       },
     );
   };
@@ -30,7 +30,7 @@ function CustomerButton({ id, name, price, urlImage }) {
           price,
           urlImage,
           qtd: 1,
-          newPrice: price.toFixed(2),
+          newPrice: price,
         },
       );
     }
@@ -42,7 +42,7 @@ function CustomerButton({ id, name, price, urlImage }) {
         price,
         urlImage,
         qtd: count + 1,
-        newPrice: price.toFixed(2) * (count + 1),
+        newPrice: price * (count + 1),
       },
     );
   };

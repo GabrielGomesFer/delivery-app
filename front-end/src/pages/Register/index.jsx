@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { SError } from '../Login/styles';
+import { SDiv, SError } from '../Login/styles';
 import { SButtons, SContainer, SForm } from './styles';
 
 function Register() {
@@ -43,7 +43,7 @@ function Register() {
   };
 
   return (
-    <>
+    <SDiv>
       <SForm>
         <img
           src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
@@ -109,7 +109,7 @@ function Register() {
           </p>
         </SError>
       )}
-    </>
+    </SDiv>
   );
 }
 
