@@ -17,6 +17,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 
 @keyframes anime {
@@ -45,8 +46,11 @@ body {
 .main {
   background-color: #412728;
   color: white;
+  display: flex;
   height: 100vh;
-  margin: auto;
+  justify-content: center;
+  margin: 0 auto;
   max-width: 414px;
+  overflow: hidden;
   width: 100%;
 }

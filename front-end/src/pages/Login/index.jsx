@@ -19,6 +19,7 @@ function Login() {
     setEmail(value);
     setDisable(finalValidation);
   };
+
   const verifyError = async () => {
     axios
       .post('http://localhost:3001/login', {
@@ -72,7 +73,7 @@ function Login() {
           <label htmlFor="password">
             Senha
             <input
-              type="text"
+              type="password"
               placeholder="digite a sua senha"
               name="password"
               value={ password }
