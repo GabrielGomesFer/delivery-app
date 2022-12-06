@@ -7,6 +7,14 @@ const register = async (req, res) => {
   return res.status(201).json(newUser);
 };
 
+const getUsersByRole = async (req, res) => {
+  const { role } = req.query;
+
+  const users = await userService.getUserByRole(role); 
+  return res.status(200).json(users);
+};
+
 module.exports = {
   register,
+  getUsersByRole,
 };

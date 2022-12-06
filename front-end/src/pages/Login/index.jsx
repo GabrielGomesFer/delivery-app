@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt from 'jwt-decode';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { SButtons, SContainer, SError, SForm } from './styles';
@@ -10,6 +11,7 @@ function Login() {
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  // const [role, setRole] = useState('customer');
 
   const verifyInputEmail = ({ target: { value } }) => {
     const regexValidation = /\S+@\w+\.\w+/i;
@@ -17,7 +19,6 @@ function Login() {
     setEmail(value);
     setDisable(finalValidation);
   };
-
   const verifyError = async () => {
     axios
       .post('http://localhost:3001/login', {
@@ -25,12 +26,18 @@ function Login() {
         password,
       })
       .then((response) => {
-        console.log(response);
-        const { token } = response;
+        const { token } = response.data;
         localStorage.setItem('token', token);
-        setEmail('');
-        setPassword('');
-        history.push('/costumer/products');
+        const { role } = jwt(token);
+        if (role === 'customer') {
+          history.push('/customer/products');
+        }
+        if (role === 'seller') {
+          history.push('/seller/orders');
+        }
+        if (role === 'administrator') {
+          history.push('/admin/manage');
+        }
       })
       .catch((err) => {
         setEmail('');
