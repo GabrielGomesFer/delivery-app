@@ -28,7 +28,7 @@ const saleRegister = async ({
 const getSaleById = async (id) => {
   const sale = await Sale.findOne({
     where: { id },
-    attributes: { exclude: ['userId'] },
+    attributes: { exclude: ['userId', 'sellerId', 'deliveryAddress', 'deliveryNumber'] },
     include: [
       {
         model: User,
@@ -49,7 +49,7 @@ const getSaleById = async (id) => {
 
 const getAllSales = async () => Sale.findAll({
   attributes: {
-    exclude: ['sellerId', 'deliveryAddress', 'deliveryNumber', 'userId'],
+    exclude: ['sellerId', 'userId'],
   },
 });
 
