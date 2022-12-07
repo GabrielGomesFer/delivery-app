@@ -8,4 +8,8 @@ const router = Router();
 
 router.post('/', validationToken, verifyProducts, verifySeller, saleController.saleRegister);
 
+router.get('/', validationToken, saleController.getSales);
+
+router.get('/:id', validationToken, saleController.getSales);
+
 module.exports = router;
