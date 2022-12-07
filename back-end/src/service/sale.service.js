@@ -1,4 +1,5 @@
-const { Sale, SaleProduct, sequelize } = require('../database/models');
+const { Sale, User, SaleProduct, Product, sequelize } = require('../database/models');
+const errorThrower = require('../utils/errorThrower');
 const { getUserByEmail } = require('./user.service');
 
 const saleRegister = async ({
@@ -24,6 +25,55 @@ const saleRegister = async ({
     return result;
 };
 
+const getSaleById = async (id) => {
+  const sale = await Sale.findOne({
+    where: { id },
+    attributes: { exclude: ['userId', 'sellerId', 'deliveryAddress', 'deliveryNumber'] },
+    include: [
+      {
+        model: User,
+        as: 'seller',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Product,
+        as: 'products',
+        through: { attributes: ['quantity'] },
+      },
+    ],
+  });
+
+  if (!sale) errorThrower(404, 'Sale not found!');
+  return sale;
+};
+
+const getAllSales = async () => Sale.findAll({
+  attributes: {
+    exclude: ['sellerId', 'userId'],
+  },
+});
+
+const updateSaleStatus = async (status, id) => {
+  const isSaleExist = await getSaleById(id);
+  if (!isSaleExist) errorThrower(404, 'Sale not found!');
+
+  const [isUpdated] = await Sale.update({ status }, { where: { id } });
+  if (!isUpdated) errorThrower(400, 'Unsuccessfuly update');
+
+  const updatedStatus = await Sale.findOne({
+    where: { id },
+    attributes: {
+      exclude: [
+        'userId', 'sellerId', 'totalPrice', 'deliveryAddress', 'deliveryNumber', 'saleDate',
+      ],
+    },
+  });
+  return updatedStatus;
+};
+
 module.exports = {
   saleRegister,
+  getSaleById,
+  getAllSales,
+  updateSaleStatus,
 };
