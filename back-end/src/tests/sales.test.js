@@ -191,7 +191,7 @@ describe("Rota /sales", () => {
     .set("Authorization", sellerToken);
 
     expect(httpResponse.status).to.equal(404);
-    expect(httpResponse.body).to.be.deep.equal({ message: 'Sale not found'  });
+    expect(httpResponse.body).to.be.deep.equal({ message: 'Sale not found!'  });
   });
 
   it("get /sales/:id token inválido", async () => {
