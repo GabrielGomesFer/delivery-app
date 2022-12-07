@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../../components/Header';
+import useAppData from '../../../context/hooks/useAppData';
 import CustomerButton from './CustomerUtils/CustomerButton';
-import { SContainer, SText, SWrapper } from './style';
+import { SCart, SContainer, SContainerCustomer, SText, SWrapper } from './style';
 
 function CustomerProducts() {
+  const { totalPrice } = useAppData();
   const [products, setProducts] = useState();
 
-  const token = localStorage.getItem('token');
+  const { token } = JSON.parse(localStorage.getItem('token'));
 
   useEffect(() => {
     axios
@@ -27,7 +30,7 @@ function CustomerProducts() {
   }, []);
 
   return (
-    <div>
+    <SContainerCustomer>
       <Header title="Produtos" url="/customer/products" />
       <SWrapper>
         {products?.map(({ id, name, price, urlImage }) => (
@@ -42,7 +45,10 @@ function CustomerProducts() {
               <p
                 data-testid={ `customer_products__element-card-price-${id}` }
               >
-                {`R$ ${price}`}
+                {Number(price)?.toLocaleString(
+                  'pt-BR',
+                  { style: 'currency', currency: 'BRL' },
+                ) ?? '0,00'}
               </p>
             </SText>
             <CustomerButton
@@ -53,9 +59,21 @@ function CustomerProducts() {
             />
           </SContainer>
         ))}
-
       </SWrapper>
-    </div>
+      <Link to="/customer/checkout">
+        <SCart data-testid="customer_products__button-cart">
+          <p>Ver Carrinho</p>
+          <p
+            data-testid="customer_products__checkout-bottom-value"
+          >
+            {totalPrice?.toLocaleString(
+              'pt-BR',
+              { style: 'currency', currency: 'BRL' },
+            ) ?? '0,00'}
+          </p>
+        </SCart>
+      </Link>
+    </SContainerCustomer>
   );
 }
 

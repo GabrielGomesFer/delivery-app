@@ -1,4 +1,3 @@
-import jwt from 'jwt-decode';
 import { SignOut } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -13,13 +12,13 @@ function Header({ title, url }) {
   });
 
   useEffect(() => {
-    const response = localStorage.getItem('token');
-    const { role, name } = jwt(response);
+    const { role, name } = JSON.parse(localStorage.getItem('token'));
     setUser({ role, name });
   }, []);
 
   const logOut = () => {
-    localStorage.clear();
+    localStorage.removeItem('token');
+    localStorage.removeItem('products');
     history.push('/');
   };
 
