@@ -58,7 +58,7 @@ const updateSaleStatus = async (status, id) => {
   if (!isSaleExist) errorThrower(404, 'Sale not found!');
 
   const [isUpdated] = await Sale.update({ status }, { where: { id } });
-  if (!isUpdated) errorThrower(500, 'Erro ao atualizar!');
+  if (!isUpdated) errorThrower(400, 'Unsuccessfuly update');
 
   const updatedStatus = await Sale.findOne({
     where: { id },
