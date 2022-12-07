@@ -68,6 +68,10 @@
       "reportWebVitals.js",
       "./services/renderWithRouter",
       "./services/history"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)/",
+      "node_modules/jwt-decode/"
     ]
   }
 }

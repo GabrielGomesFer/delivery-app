@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 const chaiHttp = require("chai-http");
 
 const app = require("../api/app");
-const { User, Products, SaleProduct } = require("../database/models");
+const { User, Product, Sale, SaleProduct } = require("../database/models");
 
 chai.use(chaiHttp);
 
@@ -17,12 +17,12 @@ const { expect } = chai;
 const sellerToken = require("./mocks/sellerToken");
 
 const mockedProducts = [
-    {
-        id: 1,
-        name: 'Skol Lata 250ml',
-        price: 2.20,
-        url_image: 'http://localhost:3001/images/skol_lata_350ml.jpg'
-    },
+    // {
+    //     id: 1,
+    //     name: 'Skol Lata 250ml',
+    //     price: 2.20,
+    //     url_image: 'http://localhost:3001/images/skol_lata_350ml.jpg'
+    // },
     {
         id: 2,
         name: 'Heineken 600ml',
@@ -38,24 +38,31 @@ const mockedProducts = [
 ];
 
 const mockedSend = {
-    id: 1,
-    seller: {
-        id: 2,
-        name: 'Fulana Pereira',
-        email: 'fulana@deliveryapp.com',
-    },
-    totalPrice: 9.99,
-    saleDate: 06-12-2022,
-    status: 'Pendente',
-    products: [mockedProducts[4]],
+  dataValues: {
+     id: 1,
+     userId: 1,
+     sellerId: 2,
+     totalPrice: 9.99,
+     deliveryAddress: 'rua dos bobos',
+     deliveryNumber: '0',
+     saleDate: 06-12-2022,
+     status: 'Pendente',
+ }
 };
 
-const mockedUser = {
+const mockedSeller = {
     name: "Fulana Pereira",
     role: "seller",
     email: "fulana@deliveryapp.com",
     password: "3c28d2b0881bf46457a853e0b07531c6",
   }
+
+const mockedUser = { dataValues: {
+  name: "Cliente Zé Birita",
+  role: "customer",
+  email: "zebirita@email.com",
+}
+}
   
 
 const mockStubProducts = [{productId: 2, quantity: 1}, {productId: 3, quantity: 1}]
@@ -79,25 +86,28 @@ describe("Rota /sales", () => {
 
   //   (2, 'Fulana Pereira', 'fulana@deliveryapp.com', '3c28d2b0881bf46457a853e0b07531c6', 'seller'), -- senha: md5('fulana@123')
   it("post /sales feito com sucesso", async () => {
-    const mockedSend = {
+    const createdSaleMock = {
+     dataValues: {
         id: 1,
-        seller: {
-            id: 2,
-            name: 'Fulana Pereira',
-            email: 'fulana@deliveryapp.com',
-        },
+        userId: 1,
+        sellerId: 2,
         totalPrice: 9.99,
+        deliveryAddress: 'rua dos bobos',
+        deliveryNumber: '0',
         saleDate: 06-12-2022,
         status: 'Pendente',
-        products: [mockedProducts[1,2]],
-    };
+    }
+  };
 
-    sinon.stub(User, "create").resolves(mockedSend);
-
+    sinon.stub(User, "findOne").resolves(mockedUser);
+    sinon.stub(User, "findByPk").resolves(mockedSeller);
+    sinon.stub(Product, "findByPk").resolves(mockedProducts);
+    sinon.stub(Sale, "create").resolves(createdSaleMock);
+    sinon.stub(SaleProduct, "bulkCreate").resolves();
     sinon.stub(jwt, 'verify').resolves(true);
 
     const httpResponse = await chai.request(app)
-    .post("/user/sales")
+    .post("/sales")
     .send({
         totalPrice: 9.99,
         sellerid: 2,
@@ -107,20 +117,20 @@ describe("Rota /sales", () => {
       }).set("Authorization", sellerToken);
 
     expect(httpResponse.status).to.equal(201);
-    expect(httpResponse.body).to.be.deep.equal(mockedSend);
+    expect(httpResponse.body).to.be.deep.equal({ 'saleId': 1 });
   });
 
   it("post /sales produto não encontrado", async () => {
 
     
-    sinon.stub(User, "findOne").resolves(mockedUser);
-    sinon.stub(Products, "findByPK").resolves();
-    sinon.stub(SaleProduct, "create").resolves(mockedSend);
+    sinon.stub(User, "findOne").resolves(mockedSeller);
+    sinon.stub(Product, "findByPk").resolves();
+    sinon.stub(Sale, "create").resolves(mockedSend);
 
     sinon.stub(jwt, 'verify').resolves(true);
 
     const httpResponse = await chai.request(app)
-    .post("/user/sales")
+    .post("/sales")
     .send({
         totalPrice: 9.99,
         sellerid: 2,
@@ -137,13 +147,13 @@ describe("Rota /sales", () => {
 
     
     sinon.stub(User, "findOne").resolves();
-    sinon.stub(Products, "findByPK").resolves(mockStubProducts);
+    sinon.stub(Product, "findByPk").resolves(mockStubProducts);
     sinon.stub(SaleProduct, "create").resolves(mockedSend);
 
     sinon.stub(jwt, 'verify').resolves(true);
 
     const httpResponse = await chai.request(app)
-    .post("/user/sales")
+    .post("/sales")
     .send({
         totalPrice: 9.99,
         sellerid: 5,
@@ -153,17 +163,17 @@ describe("Rota /sales", () => {
       }).set("Authorization", sellerToken);
 
     expect(httpResponse.status).to.equal(404);
-    expect(httpResponse.body).to.be.deep.equal({ message: 'User not found'  });
+    expect(httpResponse.body).to.be.deep.equal({ message: 'Seller not found!'  });
   });
 
   it("get /sales/:id funcionando", async () => {
 
-    sinon.stub(User, "findOne").resolves(mockedSend);
+    sinon.stub(Sale, "findOne").resolves(mockedSend);
 
     sinon.stub(jwt, 'verify').resolves(true);
 
     const httpResponse = await chai.request(app)
-    .get("/user/sales/1")
+    .get("/sales/1")
     .set("Authorization", sellerToken);
 
     expect(httpResponse.status).to.equal(200);
@@ -177,7 +187,7 @@ describe("Rota /sales", () => {
     sinon.stub(jwt, 'verify').resolves(true);
 
     const httpResponse = await chai.request(app)
-    .get("/user/sales/12584999")
+    .get("/sales/12584999")
     .set("Authorization", sellerToken);
 
     expect(httpResponse.status).to.equal(404);
@@ -191,7 +201,7 @@ describe("Rota /sales", () => {
     sinon.stub(jwt, 'verify').resolves(false);
 
     const httpResponse = await chai.request(app)
-    .get("/user/sales/1");
+    .get("/sales/1");
 
     expect(httpResponse.status).to.equal(401);
     expect(httpResponse.body).to.be.deep.equal({ message: "Token not found" });    

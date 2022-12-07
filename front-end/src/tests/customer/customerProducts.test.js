@@ -1,14 +1,27 @@
+import axios from 'axios';
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helper/renderWithRouter';
 import App from '../../App';
 
+import { validToken } from '../mocks/token';
+import { mockedProducts } from '../mocks/productsMocks';
+
+jest.mock('axios');
+
 describe('Teste aba Products', () => {
   describe('Testes header', () => {
     it('testa se trazem os dados corretamente para o header', () => {
+      Storage.prototype.setItem = jest.fn();
+      localStorage.setItem('token', JSON.stringify(validToken));
+
       const { history } = renderWithRouter(<App />);
       history.push('/customer/products');
+
+      axios.post.mockImplementation(() => Promise.resolve(
+        { data: mockedProducts },
+      ));
 
       const cardPrice = screen
         .queryByTestId('customer_products__element-card-price-<id>');
