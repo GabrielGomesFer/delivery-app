@@ -43,7 +43,7 @@ const getSaleById = async (id) => {
     ],
   });
 
-  if (!sale) errorThrower(404, 'Sale, not found!');
+  if (!sale) errorThrower(404, 'Sale not found!');
   return sale;
 };
 
@@ -53,8 +53,27 @@ const getAllSales = async () => Sale.findAll({
   },
 });
 
+const updateSaleStatus = async (status, id) => {
+  const isSaleExist = await getSaleById(id);
+  if (!isSaleExist) errorThrower(404, 'Sale not found!');
+
+  const [isUpdated] = await Sale.update({ status }, { where: { id } });
+  if (!isUpdated) errorThrower(500, 'Erro ao atualizar!');
+
+  const updatedStatus = await Sale.findOne({
+    where: { id },
+    attributes: {
+      exclude: [
+        'userId', 'sellerId', 'totalPrice', 'deliveryAddress', 'deliveryNumber', 'saleDate',
+      ],
+    },
+  });
+  return updatedStatus;
+};
+
 module.exports = {
   saleRegister,
   getSaleById,
   getAllSales,
+  updateSaleStatus,
 };
