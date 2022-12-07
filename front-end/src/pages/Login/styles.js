@@ -69,6 +69,7 @@ export const SButtons = styled.div`
 `;
 
 export const SError = styled.div`
+  z-index: 10;
   display: flex;
   width: 60%;
   height: 30px;

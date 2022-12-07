@@ -1,15 +1,17 @@
 import { MinusCircle, PlusCircle } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import useAppData from '../../../../context/hooks/useAppData';
 import { createCart, updateCart } from '../../../../localstorage';
 import { SInfos } from '../style';
 
 function CustomerButton({ id, name, price, urlImage }) {
+  const { totalValue } = useAppData();
   const [count, setCount] = useState(0);
 
   const decreaseCount = () => {
     setCount(count - 1);
-    updateCart(
+    const cartUpdated = updateCart(
       {
         id,
         name,
@@ -19,11 +21,12 @@ function CustomerButton({ id, name, price, urlImage }) {
         newPrice: price * (count - 1),
       },
     );
+    totalValue(cartUpdated);
   };
 
   const incrementCount = () => {
     if (count === 0) {
-      createCart(
+      const cartCreated = createCart(
         {
           id,
           name,
@@ -33,9 +36,10 @@ function CustomerButton({ id, name, price, urlImage }) {
           newPrice: price,
         },
       );
+      totalValue(cartCreated);
     }
     setCount(count + 1);
-    updateCart(
+    const cartUpdated = updateCart(
       {
         id,
         name,
@@ -45,13 +49,14 @@ function CustomerButton({ id, name, price, urlImage }) {
         newPrice: price * (count + 1),
       },
     );
+    totalValue(cartUpdated);
   };
 
   return (
     <SInfos>
       <MinusCircle
         size={ 25 }
-        onClick={ () => count > 1 && decreaseCount() }
+        onClick={ () => count > 0 && decreaseCount() }
         style={ { cursor: 'pointer' } }
         data-testid={ `customer_products__button-card-rm-item-${id}` }
       />

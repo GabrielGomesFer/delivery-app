@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt from 'jwt-decode';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { SButtons, SContainer, SDiv, SError, SForm } from './styles';
@@ -11,7 +10,6 @@ function Login() {
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  // const [role, setRole] = useState('customer');
 
   const verifyInputEmail = ({ target: { value } }) => {
     const regexValidation = /\S+@\w+\.\w+/i;
@@ -27,9 +25,13 @@ function Login() {
         password,
       })
       .then((response) => {
-        const { token } = response.data;
-        localStorage.setItem('token', token);
-        const { role } = jwt(token);
+        const { token, role, email: bEmail, name } = response.data;
+        localStorage.setItem('token', JSON.stringify({
+          token,
+          role,
+          bEmail,
+          name,
+        }));
         if (role === 'customer') {
           history.push('/customer/products');
         }
