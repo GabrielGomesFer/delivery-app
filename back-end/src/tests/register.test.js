@@ -16,17 +16,6 @@ const { expect } = chai;
 
 const { validToken } = require('./mocks/token')
 describe("Rota /Register", () => {
-  //
-  // beforeEach(async () => {
-  //     sinon
-  //       .stub(User, "findOne")
-  //       .resolves({
-  //         name: 'Cliente Teste',
-  //         role: 'customer',
-  //         email: 'cliente@teste.com',
-  //         password: '123456'
-  //       });
-  //   });
 
   afterEach(() => sinon.restore());
 

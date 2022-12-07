@@ -16,9 +16,6 @@ const { validToken } = require('./mocks/token')
 
 describe('Testes backend endpoint /Gets', () => {
     describe('GET /products', () => {
-        // (1, 'Skol Lata 250ml',2.20, 'http://localhost:3001/images/skol_lata_350ml.jpg'),
-	    // (2, 'Heineken 600ml',7.50, 'http://localhost:3001/images/heineken_600ml.jpg'),
-	    // (3, 'Antarctica Pilsen 300ml',2.49, 'http://localhost:3001/images/antarctica_pilsen_300ml.jpg'),
         const mockedProducts = [
             {
                 id: 1,
