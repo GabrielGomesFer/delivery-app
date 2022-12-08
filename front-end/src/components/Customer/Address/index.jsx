@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import useAppData from '../../../../context/hooks/useAppData';
-import { readCart } from '../../../../localstorage';
-import { SAddress, SCart } from '../style';
+import { useHistory } from 'react-router-dom';
+import useAppData from '../../../context/hooks/useAppData';
+import { readCart } from '../../../localstorage';
+import { SAddress, SCart } from './styles';
 
 function CustomerAddress() {
-  const { totalPrice } = useAppData();
+  const history = useHistory();
+  const { totalPrice, setUserOrderInfos } = useAppData();
 
   const [sellers, setSellers] = useState([]);
   const [sellerId, setIdSeller] = useState(2);
@@ -60,7 +62,8 @@ function CustomerAddress() {
         },
       })
       .then((response) => {
-        console.log(response);
+        setUserOrderInfos(response);
+        history.push('/customer/orders');
       })
       .catch((err) => {
         console.log(err.message);
@@ -109,6 +112,7 @@ function CustomerAddress() {
         <button
           onClick={ () => sendOrder() }
           type="button"
+          disabled={ !deliveryAddress < '3' && !deliveryNumber }
         >
           Finalizar Pedido
         </button>

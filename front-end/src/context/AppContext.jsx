@@ -5,15 +5,17 @@ const AppContext = createContext({});
 
 export function AppProvider({ children }) {
   const [totalPrice, setTotalPrice] = useState(null);
+  const [userOrderInfos, setUserOrderInfos] = useState(null);
 
   const totalValue = (newCart) => {
     const getAllValues = newCart.reduce((acc, { newPrice }) => acc + newPrice, 0);
     setTotalPrice(getAllValues);
   };
 
+  console.log(userOrderInfos);
   const data = useMemo(() => ({
-    totalPrice, totalValue,
-  }), [totalPrice]);
+    userOrderInfos, totalPrice, totalValue, setUserOrderInfos,
+  }), [userOrderInfos, totalPrice]);
 
   return (
     <AppContext.Provider value={ data }>

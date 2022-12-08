@@ -1,9 +1,9 @@
 import { MinusCircle, PlusCircle } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import useAppData from '../../../../context/hooks/useAppData';
-import { createCart, updateCart } from '../../../../localstorage';
-import { SInfos } from '../style';
+import useAppData from '../../../context/hooks/useAppData';
+import { createCart, updateCart } from '../../../localstorage';
+import SInfos from './styles';
 
 function CustomerButton({ id, name, price, urlImage }) {
   const { totalValue } = useAppData();
