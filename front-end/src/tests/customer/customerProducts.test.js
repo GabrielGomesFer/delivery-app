@@ -1,25 +1,26 @@
 import axios from 'axios';
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helper/renderWithRouter';
 import App from '../../App';
 
-import { validToken } from '../mocks/token';
+import validToken from '../mocks/token';
 import { mockedProducts } from '../mocks/productsMocks';
 
 jest.mock('axios');
 
-describe('Teste aba Products', () => {
-  describe('Testes header', () => {
-    it('testa se trazem os dados corretamente para o header', () => {
-      Storage.prototype.setItem = jest.fn();
+describe('Test Products', () => {
+  describe('Testa funcionamento da página de produtos', () => {
+    it('add 2 remove 1 and go to checkout', () => {
+      const { history } = renderWithRouter(<App />);
+      // Storage.prototype.setItem = jest.fn();
       localStorage.setItem('token', JSON.stringify(validToken));
 
-      const { history } = renderWithRouter(<App />);
+      // console.log('teste de log localstorage', JSON.parse(localStorage.getItem('token')));
       history.push('/customer/products');
 
-      axios.post.mockImplementation(() => Promise.resolve(
+      axios.get.mockImplementation(async () => Promise.resolve(
         { data: mockedProducts },
       ));
 
@@ -30,53 +31,55 @@ describe('Teste aba Products', () => {
         .queryByTestId('customer_products__img-card-bg-image-<id>');
 
       const cardTitle = screen
-        .getByTestId('customer_products__element-card-title-<id>');
+        .queryByTestId('customer_products__element-card-title-<id>');
 
       const buttonCardRemove = screen
-        .getByTestId('customer_products__button-card-rm-item-<id>');
+        .queryByTestId('customer_products__button-card-rm-item-<id>');
 
       const buttonCardAdd = screen
-        .getByTestId('customer_products__button-card-add-item-<id>');
+        .queryByTestId('customer_products__button-card-add-item-<id>');
 
       const itemQuantity = screen
-        .getByTestId('customer_products__input-card-quantity-<id>');
+        .queryByTestId('customer_products__input-card-quantity-<id>');
 
       const buttonCart = screen
-        .getByTestId('customer_products__button-cart');
+        .queryByTestId('customer_products__button-cart');
 
       const buttonCheckout = screen
-        .getByTestId('customer_products__checkout-bottom-value');
+        .queryByTestId('customer_products__checkout-bottom-value');
 
-      expect(cardPrice).toBeInTheDocument();
-      expect(cardImage).toBeInTheDocument();
-      expect(cardTitle).toBeInTheDocument();
-      expect(buttonCardRemove).toBeInTheDocument();
-      expect(buttonCardAdd).toBeInTheDocument();
-      expect(itemQuantity).toBeInTheDocument();
-      expect(buttonCart).toBeInTheDocument();
-      expect(buttonCheckout).toBeInTheDocument();
+      waitFor(() => expect(cardPrice).toBeInTheDocument());
+      waitFor(() => expect(cardImage).toBeInTheDocument());
+      waitFor(() => expect(cardTitle).toBeInTheDocument());
+      waitFor(() => expect(buttonCardRemove).toBeInTheDocument());
+      waitFor(() => expect(buttonCardAdd).toBeInTheDocument());
+      waitFor(() => expect(itemQuantity).toBeInTheDocument());
+      waitFor(() => expect(buttonCart).toBeInTheDocument());
+      waitFor(() => expect(buttonCheckout).toBeInTheDocument());
 
-      userEvent.click(buttonCardAdd[0]);
+      waitFor(() => userEvent.click(buttonCardAdd[0]));
 
-      expect(itemQuantity[0].value).to.be(1);
+      waitFor(() => expect(itemQuantity[0].value).to.be(1));
 
-      expect(buttonCheckout.value).to.be('4,49');
+      waitFor(() => expect(buttonCheckout.value).to.be('4,49'));
 
-      userEvent.click(buttonCardAdd[0]);
+      waitFor(() => userEvent.click(buttonCardAdd[0]));
 
-      expect(itemQuantity[0].value).to.be(2);
+      waitFor(() => expect(itemQuantity[0].value).to.be(2));
 
-      expect(buttonCheckout.value).to.be('9,98');
+      waitFor(() => expect(buttonCheckout.value).to.be('9,98'));
 
-      userEvent.click(buttonCardRemove[0]);
+      waitFor(() => userEvent.click(buttonCardRemove[0]));
 
-      expect(itemQuantity[0].value).to.be(1);
+      waitFor(() => expect(itemQuantity[0].value).to.be(1));
 
-      expect(buttonCheckout.value).to.be('4,49');
+      waitFor(() => expect(buttonCheckout.value).to.be('4,49'));
 
       userEvent.click(buttonCart);
 
       waitFor(() => expect(history.location.pathname).toBe('/customer/checkout'));
+
+      jest.clearAllMocks();
     });
   });
 });

@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
 
+import { mockedProducts } from './mocks/productsMocks';
+
 // const axios = require('axios');
 
 jest.mock('axios');
@@ -16,6 +18,10 @@ describe('Testa a página de Registro', () => {
 
     axios.post.mockImplementation(() => Promise.resolve(
       { data: { token: 'IsI9.eyJyc2VsbGVyIiwiZW' } },
+    ));
+
+    axios.get.mockImplementation(() => Promise.resolve(
+      { data: mockedProducts },
     ));
 
     const inputName = screen.getByTestId('common_register__input-name');
@@ -43,6 +49,10 @@ describe('Testa a página de Registro', () => {
 
     expect(button).not.toBeDisabled();
 
+    userEvent.click(button);
+
+    waitFor(() => expect(history.location.pathname).toBe('/customer/products'));
+
     jest.clearAllMocks();
   });
 
@@ -52,6 +62,9 @@ describe('Testa a página de Registro', () => {
 
     axios.post.mockImplementation(() => Promise.resolve(
       { data: { message: 'User alredy registered' } },
+    ));
+    axios.get.mockImplementation(() => Promise.resolve(
+      { data: { message: '' } },
     ));
 
     const inputName = screen.getByTestId('common_register__input-name');

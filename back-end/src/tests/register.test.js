@@ -24,7 +24,7 @@ describe("Rota /Register", () => {
       id: 4,
       name: "Cliente Teste",
       role: "customer",
-      email: "cliente@teste.com",
+      email: "zebirita@email.com",
       password: "1c37466c159755ce1fa181bd247cb925",
     }});
 
@@ -35,7 +35,7 @@ describe("Rota /Register", () => {
     });
     expect(httpResponse.status).to.equal(409);
     expect(httpResponse.body).to.be.deep.equal({
-      message: "User alredy registered",
+      message: "User already registered",
     });
   });
 
