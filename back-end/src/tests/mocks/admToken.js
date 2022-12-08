@@ -1,0 +1,4 @@
+const admToken =
+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImVtYWlsIjoiYWRtQGRlbGl2ZXJ5YXBwLmNvbSIsIm5hbWUiOiJEZWxpdmVyeSBBcHAgQWRtaW4iLCJpYXQiOjE2NzA1MzAxNzIsImV4cCI6MTY3MTEzNDk3Mn0.nEr6xFxG1Wxeq8YoRxTr2ag5ONEavz2VuKQn86rN44o';
+
+module.exports = { admToken }
