@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const SCart = styled.div``;
+export const SCart = styled.button``;
 export const SContainer = styled.div``;
 export const SContainerCustomer = styled.div``;
 export const SText = styled.div``;
