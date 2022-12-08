@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
-// const fs = require('fs');
+const fs = require('fs');
 const errorThrower = require('./errorThrower');
 require('dotenv').config();
 
-// const secret = fs.readFile('../../jwt.evaluation.key');
-const secret = process.env.JWT_SECRET_KEY;
+const secret = fs.readFile('jwt.evaluation.key', { encoding: 'utf-8' });
 
 const generateToken = ({ role, email, name }) => {
   const payload = {
