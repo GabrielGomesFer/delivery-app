@@ -8,14 +8,14 @@ const register = async ({ name, email, password, role = 'customer' }, user) => {
   if (user && user.role !== 'administrator') errorThrower(401, 'You shall not pass!');
 
   const encodedPassword = md5(password);
-  const isAlredyUserExist = await User.findOne({ where: {
+  const isAlreadyUserExist = await User.findOne({ where: {
     [Op.or]: [
       { email },
       { name },
     ],
   } });
 
-  if (isAlredyUserExist) errorThrower(409, 'User alredy registered');
+  if (isAlreadyUserExist) errorThrower(409, 'User already registered');
   
   const { dataValues: newUser } = await User.create({
     name,

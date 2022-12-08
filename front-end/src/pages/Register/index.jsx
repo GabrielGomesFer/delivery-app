@@ -6,7 +6,7 @@ import { SButtons, SContainer, SForm } from './styles';
 
 function Register() {
   const history = useHistory();
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disable, setDisable] = useState(true);
@@ -23,17 +23,22 @@ function Register() {
   const verifyError = async () => {
     axios
       .post('http://localhost:3001/user/register', {
-        name,
+        name: username,
         email,
         password,
       })
       .then((response) => {
-        const { token } = response.data;
-        localStorage.setItem('token', token);
+        const { token, role, email: bEmail, name } = response.data;
+        localStorage.setItem('token', JSON.stringify({
+          token,
+          role,
+          bEmail,
+          name,
+        }));
         history.push('/customer/products');
       })
       .catch((err) => {
-        setName('');
+        setUsername('');
         setEmail('');
         setPassword('');
         setError(true);
@@ -55,9 +60,9 @@ function Register() {
             <input
               type="text"
               placeholder="digite o seu nome"
-              name="name"
-              value={ name }
-              onChange={ ({ target: { value } }) => setName(value) }
+              name="username"
+              value={ username }
+              onChange={ ({ target: { value } }) => setUsername(value) }
               data-testid="common_register__input-name"
               autoComplete="off"
             />
@@ -93,7 +98,7 @@ function Register() {
             type="button"
             data-testid="common_register__button-register"
             style={ { backgroundColor: '#E2B659' } }
-            disabled={ !disable || password.length <= '6' || name.length <= '12' }
+            disabled={ !disable || password.length < '6' || username.length < '12' }
             onClick={ () => verifyError() }
           >
             Cadastrar

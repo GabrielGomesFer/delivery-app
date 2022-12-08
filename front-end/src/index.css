@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap') ;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap') ;
 
 ::-webkit-scrollbar {
   width: 4px;
@@ -40,7 +40,7 @@ body {
   background: linear-gradient(45deg, black, #2a272a);
   background-size: 200% 200%;
   color: white;
-  font-family: Open Sans , sans-serif;
+  font-family: Ubuntu , sans-serif;
 }
 
 .main {
@@ -50,7 +50,6 @@ body {
   height: 100vh;
   justify-content: center;
   margin: 0 auto;
-  max-width: 414px;
   overflow: hidden;
   width: 100%;
 }

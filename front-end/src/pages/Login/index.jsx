@@ -87,7 +87,6 @@ function Login() {
         <SButtons>
           <button
             type="button"
-            style={ { backgroundColor: '#E2B659' } }
             data-testid="common_login__button-login"
             disabled={ !disable || password.length < '6' }
             onClick={ () => verifyError() }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../../../components/Header';
-import useAppData from '../../../context/hooks/useAppData';
-import CustomerButton from './CustomerUtils/CustomerButton';
-import { SCart, SContainer, SContainerCustomer, SText, SWrapper } from './style';
+import CustomerButton from '../../../../components/Customer/CustomerButton';
+import Header from '../../../../components/Header';
+import useAppData from '../../../../context/hooks/useAppData';
+import { SCart, SContainer, SContainerCustomer, SText, SWrapper } from './styles';
 
 function CustomerProducts() {
   const { totalPrice } = useAppData();
@@ -37,6 +37,7 @@ function CustomerProducts() {
           <SContainer key={ id }>
             <img
               src={ urlImage }
+              height="100px"
               alt={ name }
               data-testid={ `customer_products__img-card-bg-image-${id}` }
             />
