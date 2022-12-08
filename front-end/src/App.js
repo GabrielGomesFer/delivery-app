@@ -11,21 +11,19 @@ import SellerOrders from './pages/Roles/Seller/SellerOrders';
 
 function App() {
   return (
-    <div className="main">
-      <Switch>
-        <Route exact path="/">
-          <Redirect to="/login" />
-        </Route>
-        <Route path="/login" component={ Login } />
-        <Route path="/register" component={ Register } />
-        <Route path="/customer/products" component={ CustomerProducts } />
-        <Route path="/customer/checkout" component={ CustomerCheckout } />
-        <Route path="/customer/orders" component={ CustomerOrders } />
-        <Route path="/customer/orders:id" component={ CustomerOrdersId } />
-        <Route path="/seller/orders" component={ SellerOrders } />
-        <Route path="/admin/manage" component={ AdminManage } />
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path="/">
+        <Redirect to="/login" />
+      </Route>
+      <Route path="/login" component={ Login } />
+      <Route path="/register" component={ Register } />
+      <Route path="/customer/products" component={ CustomerProducts } />
+      <Route path="/customer/checkout" component={ CustomerCheckout } />
+      <Route path="/customer/orders" component={ CustomerOrders } />
+      <Route path="/customer/orders:id" component={ CustomerOrdersId } />
+      <Route path="/seller/orders" component={ SellerOrders } />
+      <Route path="/admin/manage" component={ AdminManage } />
+    </Switch>
   );
 }
 

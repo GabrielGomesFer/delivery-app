@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import CustomerButton from '../../../../components/Customer/CustomerButton';
+import CustomerButton from '../../../../components/Customer/Button';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
 import { SCart, SContainer, SContainerCustomer, SText, SWrapper } from './styles';
