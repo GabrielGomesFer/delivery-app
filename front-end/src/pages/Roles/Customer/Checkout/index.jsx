@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import CustomerAddress from '../../../../components/Customer/Address';
-import CustomerCheckoutProducts from '../../../../components/Customer/CheckoutProducts';
+import Address from '../../../../components/Customer/Address';
+import CheckoutProducts from '../../../../components/Customer/CheckoutProducts';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
 import { deleteProducts, readCart } from '../../../../localstorage';
@@ -27,7 +27,7 @@ function CustomerCheckout() {
       <SWrapperCheckout>
         {getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
           <div key={ id }>
-            <CustomerCheckoutProducts
+            <CheckoutProducts
               urlImage={ urlImage }
               name={ name }
               price={ price }
@@ -35,6 +35,11 @@ function CustomerCheckout() {
               qtd={ qtd }
               i={ i }
               removeProduct={ () => removeProduct(id) }
+              dataTestIndex={ `customer_checkout__element-order-table-item-number-${i}` }
+              dataTestDesc={ `customer_checkout__element-order-table-name-${i}` }
+              dataTestQtd={ `customer_checkout__element-order-table-quantity-${i}` }
+              dataTestVU={ `customer_checkout__element-order-table-unit-price-${i}` }
+              dataTestSub={ `customer_checkout__element-order-table-sub-total-${i}` }
             />
           </div>
         ))}
@@ -50,7 +55,7 @@ function CustomerCheckout() {
           </p>
         </STotalValue>
       </SWrapperCheckout>
-      <CustomerAddress />
+      <Address />
     </SContainerCustomer>
   );
 }

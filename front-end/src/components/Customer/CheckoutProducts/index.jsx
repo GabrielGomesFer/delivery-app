@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { SCartDetails, SCartDetailsTitle, SCheckout } from './styles';
 
-function CustomerCheckoutProducts({
+function CheckoutProducts({
   urlImage,
   name,
   price,
@@ -11,6 +11,11 @@ function CustomerCheckoutProducts({
   qtd,
   i,
   removeProduct,
+  dataTestIndex,
+  dataTestDesc,
+  dataTestQtd,
+  dataTestVU,
+  dataTestSub,
 }) {
   const history = useHistory();
   return (
@@ -19,33 +24,34 @@ function CustomerCheckoutProducts({
       <SCartDetails>
         <SCartDetailsTitle>
           <p
-            data-testid={ `
-                    customer_checkout__element-order-table-item-number-${i}
-                    ` }
+            data-testid={ dataTestIndex }
           >
             { i + 1 }
           </p>
           <p
-            data-testid={ `customer_checkout__element-order-table-name-${i}` }
+            data-testid={ dataTestDesc }
           >
             { name }
           </p>
         </SCartDetailsTitle>
         <section>
           <p
-            data-testid={ `customer_checkout__element-order-table-quantity-${i}` }
+            data-testid={ dataTestQtd }
           >
             { qtd }
           </p>
           <p
-            data-testid={ `customer_checkout__element-order-table-unit-price-${i}` }
+            data-testid={ dataTestVU }
           >
-            { price }
+            { Number(price).toLocaleString(
+              'pt-BR',
+              { style: 'currency', currency: 'BRL' },
+            ) }
           </p>
           <p
-            data-testid={ `customer_checkout__element-order-table-sub-total-${i}` }
+            data-testid={ dataTestSub }
           >
-            { newPrice.toFixed(2) }
+            { newPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }
           </p>
           {history.location.pathname === '/customer/checkout' && (
             <button
@@ -62,14 +68,23 @@ function CustomerCheckoutProducts({
   );
 }
 
-CustomerCheckoutProducts.propTypes = {
+CheckoutProducts.propTypes = {
   name: PropTypes.string.isRequired,
   urlImage: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   newPrice: PropTypes.number.isRequired,
   qtd: PropTypes.number.isRequired,
   i: PropTypes.number.isRequired,
-  removeProduct: PropTypes.func.isRequired,
+  dataTestIndex: PropTypes.string.isRequired,
+  dataTestDesc: PropTypes.string.isRequired,
+  dataTestQtd: PropTypes.string.isRequired,
+  dataTestVU: PropTypes.string.isRequired,
+  dataTestSub: PropTypes.string.isRequired,
+  removeProduct: PropTypes.func,
 };
 
-export default CustomerCheckoutProducts;
+CheckoutProducts.defaultProps = {
+  removeProduct: () => {},
+};
+
+export default CheckoutProducts;
