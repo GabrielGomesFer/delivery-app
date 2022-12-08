@@ -5,9 +5,9 @@ import useAppData from '../../../context/hooks/useAppData';
 import { readCart } from '../../../localstorage';
 import { SAddress, SCart } from './styles';
 
-function CustomerAddress() {
+function Address() {
   const history = useHistory();
-  const { totalPrice, setUserOrderInfos } = useAppData();
+  const { totalPrice } = useAppData();
 
   const [sellers, setSellers] = useState([]);
   const [sellerId, setIdSeller] = useState(2);
@@ -62,8 +62,8 @@ function CustomerAddress() {
         },
       })
       .then((response) => {
-        setUserOrderInfos(response);
-        history.push('/customer/orders');
+        const { saleId } = response.data;
+        history.push(`/customer/orders/${saleId}`);
       })
       .catch((err) => {
         console.log(err.message);
@@ -121,4 +121,4 @@ function CustomerAddress() {
   );
 }
 
-export default CustomerAddress;
+export default Address;
