@@ -29,10 +29,10 @@ function Register() {
       })
       .then((response) => {
         const { token, role, email: bEmail, name } = response.data;
-        localStorage.setItem('token', JSON.stringify({
+        localStorage.setItem('user', JSON.stringify({
           token,
           role,
-          bEmail,
+          email: bEmail,
           name,
         }));
         history.push('/customer/products');

@@ -10,7 +10,7 @@ function CustomerProducts() {
   const { totalPrice } = useAppData();
   const [products, setProducts] = useState();
 
-  const { token } = JSON.parse(localStorage.getItem('token'));
+  const { token } = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     axios

@@ -12,12 +12,12 @@ function Header({ title, url }) {
   });
 
   useEffect(() => {
-    const { role, name } = JSON.parse(localStorage.getItem('token'));
+    const { role, name } = JSON.parse(localStorage.getItem('user'));
     setUser({ role, name });
   }, []);
 
   const logOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     localStorage.removeItem('products');
     history.push('/');
   };
