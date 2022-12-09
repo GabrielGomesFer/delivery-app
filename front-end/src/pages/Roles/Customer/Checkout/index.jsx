@@ -7,7 +7,7 @@ import { deleteProducts, readCart } from '../../../../localstorage';
 import { SContainerCustomer, STotalValue } from './styles';
 
 function CustomerCheckout() {
-  const { totalPrice } = useAppData();
+  const { totalPrice, totalValue } = useAppData();
   const [getCartProducts, setGetCartProducts] = useState([]);
 
   useEffect(() => {
@@ -16,8 +16,9 @@ function CustomerCheckout() {
   }, []);
 
   const removeProduct = (id) => {
-    const updatedProducts = deleteProducts(id);
-    setGetCartProducts(updatedProducts);
+    const updatedProductList = deleteProducts(id);
+    totalValue(updatedProductList);
+    setGetCartProducts(updatedProductList);
   };
 
   return (
@@ -36,32 +37,31 @@ function CustomerCheckout() {
           </tr>
           {
             getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
-              <tr key={ i }>
-                <CheckoutProducts
-                  urlImage={ urlImage }
-                  name={ name }
-                  price={ price }
-                  newPrice={ newPrice }
-                  qtd={ qtd }
-                  i={ i }
-                  removeProduct={ () => removeProduct(id) }
-                  dataTestIndex={
-                    `customer_checkout__element-order-table-item-number-${i}`
-                  }
-                  dataTestDesc={
-                    `customer_checkout__element-order-table-name-${i}`
-                  }
-                  dataTestQtd={
-                    `customer_checkout__element-order-table-quantity-${i}`
-                  }
-                  dataTestVU={
-                    `customer_checkout__element-order-table-unit-price-${i}`
-                  }
-                  dataTestSub={
-                    `customer_checkout__element-order-table-sub-total-${i}`
-                  }
-                />
-              </tr>
+              <CheckoutProducts
+                urlImage={ urlImage }
+                name={ name }
+                price={ price }
+                newPrice={ newPrice }
+                qtd={ qtd }
+                i={ i }
+                removeProduct={ () => removeProduct(id) }
+                dataTestIndex={
+                  `customer_checkout__element-order-table-item-number-${i}`
+                }
+                dataTestDesc={
+                  `customer_checkout__element-order-table-name-${i}`
+                }
+                dataTestQtd={
+                  `customer_checkout__element-order-table-quantity-${i}`
+                }
+                dataTestVU={
+                  `customer_checkout__element-order-table-unit-price-${i}`
+                }
+                dataTestSub={
+                  `customer_checkout__element-order-table-sub-total-${i}`
+                }
+                key={ i }
+              />
             ))
           }
         </tbody>
