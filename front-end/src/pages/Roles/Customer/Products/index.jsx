@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Button from '../../../../components/Customer/Button';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
@@ -9,8 +9,9 @@ import { SCart, SContainer, SContainerCustomer, SText, SWrapper } from './styles
 function CustomerProducts() {
   const { totalPrice } = useAppData();
   const [products, setProducts] = useState();
+  const history = useHistory();
 
-  const { token } = JSON.parse(localStorage.getItem('token'));
+  const { token } = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     axios
@@ -26,8 +27,11 @@ function CustomerProducts() {
       .catch((err) => {
         console.log(err.message);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
+
+  const toCheckout = () => {
+    history.push('/customer/checkout');
+  };
 
   return (
     <SContainerCustomer>
@@ -61,19 +65,21 @@ function CustomerProducts() {
           </SContainer>
         ))}
       </SWrapper>
-      <Link to="/customer/checkout">
-        <SCart data-testid="customer_products__button-cart">
-          <p>Ver Carrinho</p>
-          <p
-            data-testid="customer_products__checkout-bottom-value"
-          >
-            {totalPrice?.toLocaleString(
-              'pt-BR',
-              { style: 'currency', currency: 'BRL' },
-            ) ?? '0,00'}
-          </p>
-        </SCart>
-      </Link>
+      <SCart
+        data-testid="customer_products__button-cart"
+        disabled={ totalPrice === 0 }
+        onClick={ toCheckout }
+      >
+        <p>Ver Carrinho</p>
+        <p
+          data-testid="customer_products__checkout-bottom-value"
+        >
+          {totalPrice?.toLocaleString(
+            'pt-BR',
+            { style: 'currency', currency: 'BRL' },
+          ) ?? '0,00'}
+        </p>
+      </SCart>
     </SContainerCustomer>
   );
 }

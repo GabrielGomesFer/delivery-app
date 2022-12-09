@@ -26,10 +26,10 @@ function Login() {
       })
       .then((response) => {
         const { token, role, email: bEmail, name } = response.data;
-        localStorage.setItem('token', JSON.stringify({
+        localStorage.setItem('user', JSON.stringify({
           token,
           role,
-          bEmail,
+          email: bEmail,
           name,
         }));
         if (role === 'customer') {

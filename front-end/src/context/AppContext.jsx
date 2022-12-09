@@ -4,7 +4,8 @@ import { createContext, useMemo, useState } from 'react';
 const AppContext = createContext({});
 
 export function AppProvider({ children }) {
-  const [totalPrice, setTotalPrice] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);
+  // const [userOrderInfos, setUserOrderInfos] = useState(null);
 
   const totalValue = (newCart) => {
     const getAllValues = newCart.reduce((acc, { newPrice }) => acc + newPrice, 0);
