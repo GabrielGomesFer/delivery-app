@@ -80,7 +80,11 @@ function Address() {
       <SAddress>
         <label htmlFor="seller">
           P. Vendedora Responsável
-          <select onClick={ ({ target: { value } }) => setIdSeller(value) } name="seller">
+          <select
+            data-testid="customer_checkout__select-seller"
+            onClick={ ({ target: { value } }) => setIdSeller(value) }
+            name="seller"
+          >
             {sellers?.map(({ name, id }) => (
               <option value={ id } key={ id }>{ name }</option>
             ))}
@@ -95,6 +99,7 @@ function Address() {
             value={ deliveryAddress }
             onChange={ ({ target: { value, name } }) => getInfos(name, value) }
             autoComplete="off"
+            data-testid="customer_checkout__input-address"
           />
         </label>
         <label htmlFor="deliveryNumber">
@@ -105,6 +110,7 @@ function Address() {
             name="deliveryNumber"
             value={ deliveryNumber }
             onChange={ ({ target: { value, name } }) => getInfos(name, value) }
+            data-testid="customer_checkout__input-address-number"
           />
         </label>
       </SAddress>
@@ -113,6 +119,7 @@ function Address() {
           onClick={ () => sendOrder() }
           type="button"
           disabled={ !deliveryAddress < '3' && !deliveryNumber }
+          data-testid="customer_checkout__button-submit-order"
         >
           Finalizar Pedido
         </button>
