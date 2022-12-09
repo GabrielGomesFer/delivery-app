@@ -27,8 +27,7 @@ function CustomerProducts() {
       .catch((err) => {
         console.log(err.message);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
 
   const toCheckout = () => {
     history.push('/customer/checkout');

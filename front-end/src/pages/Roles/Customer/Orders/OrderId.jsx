@@ -30,16 +30,15 @@ function OrderId() {
         setInfos(data);
         const getCart = readCart();
         totalValue(getCart);
-        // if (data?.status === 'Entregue') {
-        //   setDisable(true);
-        //   setGetStatus('Entregue');
-        // }
+        if (data?.status === 'Entregue') {
+          setDisable(true);
+          setGetStatus('Entregue');
+        }
       })
       .catch((err) => {
         console.log(err.message);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id, token, totalValue]);
 
   const updateOrder = () => {
     axios
