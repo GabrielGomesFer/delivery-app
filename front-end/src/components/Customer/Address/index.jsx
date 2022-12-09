@@ -20,7 +20,7 @@ function CustomerAddress() {
 
   const getInfos = (name, value) => setUserInfos((old) => ({ ...old, [name]: value }));
 
-  const { token } = JSON.parse(localStorage.getItem('token'));
+  const { token } = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     axios
