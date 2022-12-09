@@ -25,19 +25,27 @@ function CustomerCheckout() {
       <Header title="Produtos" url="/customer/products" />
       <h1>Finalizar Pedido</h1>
       <SWrapperCheckout>
-        {getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
-          <div key={ id }>
-            <CustomerCheckoutProducts
-              urlImage={ urlImage }
-              name={ name }
-              price={ price }
-              newPrice={ newPrice }
-              qtd={ qtd }
-              i={ i }
-              removeProduct={ () => removeProduct(id) }
-            />
-          </div>
-        ))}
+        <table>
+          <tbody>
+            {
+              getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
+                <tr key={ i }>
+                  <th>
+                    <CustomerCheckoutProducts
+                      urlImage={ urlImage }
+                      name={ name }
+                      price={ price }
+                      newPrice={ newPrice }
+                      qtd={ qtd }
+                      i={ i }
+                      removeProduct={ () => removeProduct(id) }
+                    />
+                  </th>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
         <STotalValue>
           <p>Valor Total:</p>
           <p
