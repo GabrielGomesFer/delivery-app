@@ -97,7 +97,6 @@ function Register() {
           <button
             type="button"
             data-testid="common_register__button-register"
-            style={ { backgroundColor: '#E2B659' } }
             disabled={ !disable || password.length < '6' || username.length < '12' }
             onClick={ () => verifyError() }
           >

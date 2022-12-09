@@ -5,7 +5,7 @@ import useAppData from '../../../context/hooks/useAppData';
 import { createCart, deleteProducts, readCart, updateCart } from '../../../localstorage';
 import SInfos from './styles';
 
-function CustomerButton({ id, name, price, urlImage }) {
+function Button({ id, name, price, urlImage }) {
   const { totalValue } = useAppData();
   const [count, setCount] = useState(0);
 
@@ -129,9 +129,9 @@ function CustomerButton({ id, name, price, urlImage }) {
   );
 }
 
-export default CustomerButton;
+export default Button;
 
-CustomerButton.propTypes = {
+Button.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,

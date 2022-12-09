@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import CustomerButton from '../../../../components/Customer/Button';
+import Button from '../../../../components/Customer/Button';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
 import { SCart, SContainer, SContainerCustomer, SText, SWrapper } from './styles';
@@ -57,7 +57,7 @@ function CustomerProducts() {
                 ) ?? '0,00'}
               </p>
             </SText>
-            <CustomerButton
+            <Button
               id={ id }
               name={ name }
               price={ price }
