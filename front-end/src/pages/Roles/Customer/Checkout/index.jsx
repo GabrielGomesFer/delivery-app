@@ -26,7 +26,7 @@ function CustomerCheckout() {
       <Header title="Produtos" url="/customer/products" />
       <h1>Finalizar Pedido</h1>
       <table>
-        <tbody>
+        <thead>
           <tr>
             <th>Item</th>
             <th>Descrição</th>
@@ -35,6 +35,8 @@ function CustomerCheckout() {
             <th>Sub-total</th>
             <th>Remover Item</th>
           </tr>
+        </thead>
+        <tbody>
           {
             getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
               <CheckoutProducts

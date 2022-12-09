@@ -12,9 +12,11 @@ function OrderId() {
   const { id } = useParams();
   const [infos, setInfos] = useState(null);
   const [getStatus, setGetStatus] = useState('Pendente');
-  const [disable, setDisable] = useState(false);
+  const [disable, setDisable] = useState(true);
 
-  const { token } = JSON.parse(localStorage.getItem('token'));
+  const { token } = JSON.parse(localStorage.getItem('user'));
+
+  const TEST_ID = 'customer_order_details__element-order-details-label-delivery-status';
 
   useEffect(() => {
     axios
@@ -28,10 +30,10 @@ function OrderId() {
         setInfos(data);
         const getCart = readCart();
         totalValue(getCart);
-        if (data?.status === 'Entregue') {
-          setDisable(true);
-          setGetStatus('Entregue');
-        }
+        // if (data?.status === 'Entregue') {
+        //   setDisable(true);
+        //   setGetStatus('Entregue');
+        // }
       })
       .catch((err) => {
         console.log(err.message);
@@ -81,13 +83,11 @@ function OrderId() {
           <p
             data-testid="customer_order_details__element-order-details-label-order-date"
           >
-            {moment(infos.saleDate).format('L')}
+            {moment(infos.saleDate).format('DD/MM/YYYY')}
           </p>
           <div>
             <p
-              data-testid={ `
-              customer_order_details__element-order-details-label-delivery-status
-              ` }
+              data-testid={ TEST_ID }
             >
               {getStatus}
             </p>
@@ -102,28 +102,53 @@ function OrderId() {
           </div>
         </div>
       )}
-      {infos?.products.map(({ urlImage, name, price, SaleProduct: { quantity } }, i) => (
-        <div key={ i }>
-          <CheckoutProducts
-            urlImage={ urlImage }
-            name={ name }
-            price={ price }
-            newPrice={ Number(price) * (quantity) }
-            qtd={ quantity }
-            i={ i }
-            dataTestIndex={ `
-              customer_order_details__element-order-table-item-number-${i}
-            ` }
-            dataTestDesc={ `customer_order_details__element-order-table-name-${i}` }
-            dataTestQtd={ `customer_order_details__element-order-table-quantity-${i}` }
-            dataTestVU={ `customer_order_details__element-order-table-unit-price-${i}` }
-            dataTestSub={ `customer_order_details__element-order-table-sub-total-${i}` }
-          />
-        </div>
-      ))}
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Descrição</th>
+            <th>Quantidade</th>
+            <th>Valor Unitário</th>
+            <th>Sub-total</th>
+            <th>Remover Item</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            infos?.products.map(({
+              urlImage, name, price, SaleProduct: { quantity },
+            }, i) => (
+              <CheckoutProducts
+                key={ i }
+                urlImage={ urlImage }
+                name={ name }
+                price={ price }
+                newPrice={ Number(price) * (quantity) }
+                qtd={ quantity }
+                i={ i }
+                dataTestIndex={
+                  `customer_order_details__element-order-table-item-number-${i}`
+                }
+                dataTestDesc={
+                  `customer_order_details__element-order-table-name-${i}`
+                }
+                dataTestQtd={
+                  `customer_order_details__element-order-table-quantity-${i}`
+                }
+                dataTestVU={
+                  `customer_order_details__element-order-table-unit-price-${i}`
+                }
+                dataTestSub={
+                  `customer_order_details__element-order-table-sub-total-${i}`
+                }
+              />
+            ))
+          }
+        </tbody>
+      </table>
       <div>
         <p>Valor Total:</p>
-        <p>
+        <p data-testid="customer_order_details__element-order-total-price">
           {totalPrice?.toLocaleString(
             'pt-BR',
             { style: 'currency', currency: 'BRL' },
