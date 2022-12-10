@@ -3,7 +3,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import addUserFormDataTestIds from './data-testids';
 
-function AddUserForm({ errorHandler }) {
+function AddUserForm({ errorHandler, usersTable }) {
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -28,7 +28,9 @@ function AddUserForm({ errorHandler }) {
           authorization: token,
         },
       });
+
       setUser({ name: '', email: '', password: '', role: 'customer' });
+      usersTable.setUsers([...usersTable.users, user]);
     } catch (error) {
       const { message } = error.response.data;
       errorHandler.setDisplayError({ showError: true, message });
@@ -103,6 +105,15 @@ AddUserForm.propTypes = {
       message: PropTypes.string,
     }),
     setDisplayError: PropTypes.func,
+  }).isRequired,
+  usersTable: PropTypes.shape({
+    users: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      email: PropTypes.string,
+      role: PropTypes.string,
+    })),
+    setUsers: PropTypes.func,
   }).isRequired,
 };
 export default AddUserForm;
