@@ -8,7 +8,7 @@ import {
   SLoginButtons,
   SLoginForm,
   SLoginLabel,
-  SLoginWrapper
+  SLoginWrapper,
 } from './styles';
 
 function Login() {

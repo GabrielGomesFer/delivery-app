@@ -12,7 +12,6 @@ function CustomerProducts() {
   const history = useHistory();
   const { totalPrice, totalValue } = useAppData();
   const [products, setProducts] = useState();
-  const history = useHistory();
 
   const { token } = JSON.parse(localStorage.getItem('user'));
 
@@ -32,7 +31,7 @@ function CustomerProducts() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [token]);
+  }, [token, totalValue]);
 
   return (
     <SProductsWrapper>
