@@ -1,8 +1,15 @@
 import axios from 'axios';
+import { Warning } from 'phosphor-react';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { SDiv, SError } from '../Login/styles';
-import { SButtons, SContainer, SForm } from './styles';
+import { Link, useHistory } from 'react-router-dom';
+import {
+  SError,
+  SImg,
+  SLoginButtons,
+  SLoginForm,
+  SLoginLabel,
+  SLoginWrapper
+} from '../Login/styles';
 
 function Register() {
   const history = useHistory();
@@ -29,10 +36,10 @@ function Register() {
       })
       .then((response) => {
         const { token, role, email: bEmail, name } = response.data;
-        localStorage.setItem('token', JSON.stringify({
+        localStorage.setItem('user', JSON.stringify({
           token,
           role,
-          bEmail,
+          email: bEmail,
           name,
         }));
         history.push('/customer/products');
@@ -48,15 +55,25 @@ function Register() {
   };
 
   return (
-    <SDiv>
-      <SForm>
-        <img
-          src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
-          alt="logo UNOSSO"
-        />
-        <SContainer>
+    <SLoginWrapper>
+      <SImg>
+        <img src="https://picsum.photos/1000" alt="" />
+      </SImg>
+      <SLoginForm>
+        <h1>Faça o cadastro de uma nova conta</h1>
+        {error && (
+          <SError>
+            <Warning size={ 22 } />
+            <p
+              data-testid="common_register__element-invalid_register"
+            >
+              {errorMessage ?? 'Usuário e senha inválidos!'}
+            </p>
+          </SError>
+        )}
+        <SLoginLabel>
           <label htmlFor="name">
-            Nome
+            <p>Nome</p>
             <input
               type="text"
               placeholder="digite o seu nome"
@@ -69,7 +86,7 @@ function Register() {
           </label>
 
           <label htmlFor="email">
-            Email
+            <p>Email</p>
             <input
               type="email"
               placeholder="digite o seu email"
@@ -82,7 +99,7 @@ function Register() {
           </label>
 
           <label htmlFor="password">
-            Senha
+            <p>Senha</p>
             <input
               type="password"
               placeholder="digite a sua senha"
@@ -92,28 +109,29 @@ function Register() {
               data-testid="common_register__input-password"
             />
           </label>
-        </SContainer>
-        <SButtons>
+        </SLoginLabel>
+        <SLoginButtons>
           <button
             type="button"
             data-testid="common_register__button-register"
             disabled={ !disable || password.length < '6' || username.length < '12' }
             onClick={ () => verifyError() }
+            style={ { backgroundColor: '#8b5cf6' } }
           >
             Cadastrar
           </button>
-        </SButtons>
-      </SForm>
-      {error && (
-        <SError>
-          <p
-            data-testid="common_register__element-invalid_register"
-          >
-            {errorMessage ?? 'Usuário e senha inválidos!'}
-          </p>
-        </SError>
-      )}
-    </SDiv>
+          <hr />
+          <Link to="/login">
+            <button
+              type="button"
+              style={ { backgroundColor: '#ec2323' } }
+            >
+              Já tenho uma conta
+            </button>
+          </Link>
+        </SLoginButtons>
+      </SLoginForm>
+    </SLoginWrapper>
   );
 }
 

@@ -1,7 +1,15 @@
 import axios from 'axios';
+import { Warning } from 'phosphor-react';
 import { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { SButtons, SContainer, SDiv, SError, SForm } from './styles';
+import {
+  SError,
+  SImg,
+  SLoginButtons,
+  SLoginForm,
+  SLoginLabel,
+  SLoginWrapper
+} from './styles';
 
 function Login() {
   const history = useHistory();
@@ -26,10 +34,10 @@ function Login() {
       })
       .then((response) => {
         const { token, role, email: bEmail, name } = response.data;
-        localStorage.setItem('token', JSON.stringify({
+        localStorage.setItem('user', JSON.stringify({
           token,
           role,
-          bEmail,
+          email: bEmail,
           name,
         }));
         if (role === 'customer') {
@@ -52,15 +60,25 @@ function Login() {
   };
 
   return (
-    <SDiv>
-      <SForm>
-        <img
-          src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
-          alt="logo UNOSSO"
-        />
-        <SContainer>
+    <SLoginWrapper>
+      <SImg>
+        <img src="https://picsum.photos/1000" alt="" />
+      </SImg>
+      <SLoginForm>
+        <h1>Entre com a sua conta</h1>
+        {error && (
+          <SError>
+            <Warning size={ 22 } />
+            <p
+              data-testid="common_login__element-invalid-email"
+            >
+              {errorMessage ?? 'Usuário e senha inválidos!'}
+            </p>
+          </SError>
+        )}
+        <SLoginLabel>
           <label htmlFor="email">
-            Email
+            <p>Email</p>
             <input
               type="email"
               placeholder="digite o seu email"
@@ -73,7 +91,7 @@ function Login() {
           </label>
 
           <label htmlFor="password">
-            Senha
+            <p>Senha</p>
             <input
               type="password"
               placeholder="digite a sua senha"
@@ -83,36 +101,30 @@ function Login() {
               data-testid="common_login__input-password"
             />
           </label>
-        </SContainer>
-        <SButtons>
+        </SLoginLabel>
+        <SLoginButtons>
           <button
             type="button"
             data-testid="common_login__button-login"
             disabled={ !disable || password.length < '6' }
             onClick={ () => verifyError() }
+            style={ { backgroundColor: '#8b5cf6' } }
           >
             Login
           </button>
+          <hr />
           <Link to="/register">
             <button
               type="button"
               data-testid="common_login__button-register"
+              style={ { backgroundColor: '#ec2323' } }
             >
               Ainda não tenho conta
             </button>
           </Link>
-        </SButtons>
-      </SForm>
-      {error && (
-        <SError>
-          <p
-            data-testid="common_login__element-invalid-email"
-          >
-            {errorMessage ?? 'Usuário e senha inválidos!'}
-          </p>
-        </SError>
-      )}
-    </SDiv>
+        </SLoginButtons>
+      </SLoginForm>
+    </SLoginWrapper>
   );
 }
 
