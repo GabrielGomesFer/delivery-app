@@ -47,9 +47,18 @@ const getUserByEmail = async (email) => {
 
 const getAllUsers = async () => User.findAll({ attributes: { exclude: ['password'] } });
 
+const deleteUser = async (id) => {
+  const user = await User.findOne({ where: { id } });
+
+  if (!user) errorThrower(404, 'User not found');
+  
+  await User.destroy({ where: { id } });
+} 
+
 module.exports = {
   register,
   getUserByRole,
   getUserByEmail,
   getAllUsers,
+  deleteUser,
 };
