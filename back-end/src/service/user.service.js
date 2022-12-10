@@ -6,6 +6,7 @@ const { generateToken } = require('../utils/JWT');
 
 const register = async ({ name, email, password, role = 'customer' }, user) => {
   if (user && user.role !== 'administrator') errorThrower(401, 'You shall not pass!');
+  if (!user && role !== 'customer') errorThrower(401, 'You shall not pass!');
 
   const encodedPassword = md5(password);
   const isAlreadyUserExist = await User.findOne({ where: {

@@ -6,7 +6,6 @@ const router = Router();
 
 router.post('/register', validationToken, userController.register);
 router.get('/search', validationToken, userController.getUsers);
-router.post('/', validationToken, userController.register);
 router.get('/', validationToken, userController.getUsers);
 
 module.exports = router;
