@@ -2,7 +2,7 @@ import { SignOut } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { SContainer, SProducts, SUser } from './style';
+import { SHeader, SNavProducts, SUser } from './style';
 
 function Header({ title, url }) {
   const history = useHistory();
@@ -23,8 +23,12 @@ function Header({ title, url }) {
   };
 
   return (
-    <SContainer>
-      <SProducts>
+    <SHeader>
+      <SNavProducts>
+        <img
+          src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
+          alt=""
+        />
         <a
           data-testid="customer_products__element-navbar-link-products"
           href={ url }
@@ -39,23 +43,26 @@ function Header({ title, url }) {
             Meus Pedidos
           </a>
         )}
-      </SProducts>
+      </SNavProducts>
       <SUser>
-        <p
-          data-testid="customer_products__element-navbar-user-full-name"
-        >
-          { user.name }
-        </p>
+        <div>
+          <p>Olá! </p>
+          <p
+            data-testid="customer_products__element-navbar-user-full-name"
+          >
+            { user.name }
+          </p>
+        </div>
         <button
           data-testid="customer_products__element-navbar-link-logout"
           type="button"
           onClick={ () => logOut() }
         >
-          <SignOut size={ 20 } color="#fffafa" />
+          <SignOut size={ 20 } style={ { cursor: 'pointer' } } />
           <p>Sair</p>
         </button>
       </SUser>
-    </SContainer>
+    </SHeader>
   );
 }
 

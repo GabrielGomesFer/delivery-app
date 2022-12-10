@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import useAppData from '../../../context/hooks/useAppData';
 import { createCart, deleteProducts, readCart, updateCart } from '../../../localstorage';
-import SInfos from './styles';
+import { SButtonsWrapper } from './styles';
 
 function Button({ id, name, price, urlImage }) {
   const { totalValue } = useAppData();
@@ -11,14 +11,12 @@ function Button({ id, name, price, urlImage }) {
 
   const decreaseCount = () => {
     setCount(count - 1);
-
     if ((count - 1) === 0) {
       deleteProducts(id);
       const productsCart = readCart();
 
       return totalValue(productsCart);
     }
-
     const cartUpdated = updateCart(
       {
         id,
@@ -60,7 +58,7 @@ function Button({ id, name, price, urlImage }) {
     totalValue(cartUpdated);
   };
 
-  const typeCount = ({ target: { value } }) => {
+  const typeCount = (value) => {
     const productsCart = readCart();
     const newValue = Number(value);
 
@@ -97,7 +95,7 @@ function Button({ id, name, price, urlImage }) {
   };
 
   return (
-    <SInfos>
+    <SButtonsWrapper>
       <button
         type="button"
         data-testid={ `customer_products__button-card-rm-item-${id}` }
@@ -111,7 +109,7 @@ function Button({ id, name, price, urlImage }) {
       <input
         type="text"
         value={ count }
-        onChange={ typeCount }
+        onChange={ ({ target: { value } }) => typeCount(value) }
         data-testid={ `customer_products__input-card-quantity-${id}` }
       />
       <button
@@ -124,8 +122,7 @@ function Button({ id, name, price, urlImage }) {
           style={ { cursor: 'pointer' } }
         />
       </button>
-
-    </SInfos>
+    </SButtonsWrapper>
   );
 }
 
