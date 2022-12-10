@@ -4,9 +4,14 @@ const { User } = require('../database/models');
 const errorThrower = require('../utils/errorThrower');
 const { generateToken } = require('../utils/JWT');
 
-const register = async ({ name, email, password, role = 'customer' }, user) => {
+const validateRegister = (user, role) => {
   if (user && user.role !== 'administrator') errorThrower(401, 'You shall not pass!');
+  if (!user && role !== 'customer') errorThrower(401, 'You shall not pass!');
+};
 
+const register = async ({ name, email, password, role = 'customer' }, user) => {
+  validateRegister(user, role);
+  
   const encodedPassword = md5(password);
   const isAlreadyUserExist = await User.findOne({ where: {
     [Op.or]: [
@@ -46,9 +51,18 @@ const getUserByEmail = async (email) => {
 
 const getAllUsers = async () => User.findAll({ attributes: { exclude: ['password'] } });
 
+const deleteUser = async (id) => {
+  const user = await User.findOne({ where: { id } });
+
+  if (!user) errorThrower(404, 'User not found');
+  
+  await User.destroy({ where: { id } });
+};
+
 module.exports = {
   register,
   getUserByRole,
   getUserByEmail,
   getAllUsers,
+  deleteUser,
 };

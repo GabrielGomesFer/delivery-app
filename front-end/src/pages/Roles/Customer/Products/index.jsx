@@ -12,6 +12,7 @@ function CustomerProducts() {
   const history = useHistory();
   const { totalPrice, totalValue } = useAppData();
   const [products, setProducts] = useState();
+  const history = useHistory();
 
   const { token } = JSON.parse(localStorage.getItem('user'));
 
@@ -31,7 +32,6 @@ function CustomerProducts() {
       .catch((err) => {
         console.log(err.message);
       });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (

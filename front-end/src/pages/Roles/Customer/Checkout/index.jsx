@@ -37,33 +37,35 @@ function CustomerCheckout() {
           </tr>
         </thead>
         <tbody>
-          {getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
-            <CheckoutProducts
-              urlImage={ urlImage }
-              name={ name }
-              price={ price }
-              newPrice={ newPrice }
-              qtd={ qtd }
-              i={ i }
-              removeProduct={ () => removeProduct(id) }
-              dataTestIndex={
-                `customer_checkout__element-order-table-item-number-${i}`
-              }
-              dataTestDesc={
-                `customer_checkout__element-order-table-name-${i}`
-              }
-              dataTestQtd={
-                `customer_checkout__element-order-table-quantity-${i}`
-              }
-              dataTestVU={
-                `customer_checkout__element-order-table-unit-price-${i}`
-              }
-              dataTestSub={
-                `customer_checkout__element-order-table-sub-total-${i}`
-              }
-              key={ i }
-            />
-          ))}
+          {
+            getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
+              <CheckoutProducts
+                urlImage={ urlImage }
+                name={ name }
+                price={ price }
+                newPrice={ newPrice }
+                qtd={ qtd }
+                i={ i }
+                removeProduct={ () => removeProduct(id) }
+                dataTestIndex={
+                  `customer_checkout__element-order-table-item-number-${i}`
+                }
+                dataTestDesc={
+                  `customer_checkout__element-order-table-name-${i}`
+                }
+                dataTestQtd={
+                  `customer_checkout__element-order-table-quantity-${i}`
+                }
+                dataTestVU={
+                  `customer_checkout__element-order-table-unit-price-${i}`
+                }
+                dataTestSub={
+                  `customer_checkout__element-order-table-sub-total-${i}`
+                }
+                key={ i }
+              />
+            ))
+          }
         </tbody>
       </table>
       <STotalValue>

@@ -12,7 +12,7 @@ function OrderId() {
   const { id } = useParams();
   const [infos, setInfos] = useState(null);
   const [getStatus, setGetStatus] = useState('Pendente');
-  const [disable, setDisable] = useState(false);
+  const [disable, setDisable] = useState(true);
 
   const { token } = JSON.parse(localStorage.getItem('user'));
 
@@ -147,7 +147,7 @@ function OrderId() {
       </table>
       <div>
         <p>Valor Total:</p>
-        <p>
+        <p data-testid="customer_order_details__element-order-total-price">
           {totalPrice?.toLocaleString(
             'pt-BR',
             { style: 'currency', currency: 'BRL' },
