@@ -19,7 +19,7 @@ const deleteUser = async (req, res) => {
 
   await userService.deleteUser(id);
   return res.status(204).json();
-}
+};
 
 module.exports = {
   register,
