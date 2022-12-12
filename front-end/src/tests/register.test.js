@@ -7,8 +7,6 @@ import App from '../App';
 
 import { mockedProducts } from './mocks/productsMocks';
 
-// const axios = require('axios');
-
 jest.mock('axios');
 
 describe('Testa a página de Registro', () => {
