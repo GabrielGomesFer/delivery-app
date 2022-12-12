@@ -1,14 +1,11 @@
 const sinon = require("sinon");
-
 const chai = require("chai");
-
 const jwt = require("jsonwebtoken");
-// import * as chai from 'chai';
-
 const chaiHttp = require("chai-http");
-
 const app = require("../api/app");
 const { User, Product, Sale, SaleProduct } = require("../database/models");
+const sale = require('./mocks/completeSaleMock');
+const saleList = require('./mocks/saleList');
 
 chai.use(chaiHttp);
 
@@ -181,17 +178,15 @@ describe("Rota /sales", () => {
   });
 
   it("get /sales/:id id não encontrado", async () => {
-
+    sinon.restore();
+    sinon.stub(jwt, 'verify').returns({ name: 'user', email: 'user@email.com', role: 'seller' });
     sinon.stub(User, "findOne").resolves();
 
-    sinon.stub(jwt, 'verify').resolves(true);
-
-    const httpResponse = await chai.request(app)
-    .get("/sales/12584999")
+    const httpResponse = await chai.request(app).get("/sales/99")
     .set("Authorization", sellerToken);
 
     expect(httpResponse.status).to.equal(404);
-    expect(httpResponse.body).to.be.deep.equal({ message: 'Sale not found!'  });
+    expect(httpResponse.body).to.be.deep.equal({ message: 'Sale not found!' });
   });
 
   it("get /sales/:id token inválido", async () => {
@@ -205,5 +200,55 @@ describe("Rota /sales", () => {
 
     expect(httpResponse.status).to.equal(401);
     expect(httpResponse.body).to.be.deep.equal({ message: "Token not found" });    
+  });
+
+  it("PUT /sales/:id update sale with success", async () => {
+    sinon.stub(jwt, 'verify').resolves({ name: 'user', email: 'user@email.com', role: 'seller' });
+    sinon.stub(Sale, "update").resolves([1]);
+    sinon.stub(Sale, "findOne").resolves({ id: 1, status: "Em transito" });
+
+    const response = await chai.request(app).put("/sales/1").send({
+      status: 'Em transito'
+    }).set("Authorization", sellerToken);
+
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.be.deep.equal({ id: 1, status: "Em transito" });
+  });
+
+  it("PUT /sales/:id cannot update sale if sale not founded", async () => {
+    sinon.stub(jwt, 'verify').resolves({ name: 'user', email: 'user@email.com', role: 'seller' });;
+    sinon.stub(Sale, "findOne").resolves();
+
+    const response = await chai.request(app).put("/sales/99").send({
+      status: 'Em transito'
+    }).set("Authorization", sellerToken);
+
+    expect(response.status).to.be.equal(404);
+    expect(response.body).to.be.deep.equal({ message: "Sale not found!" });
+  });
+
+  it("PUT /sales/:id send error if cannot update sale", async () => {
+    sinon.stub(jwt, 'verify').resolves({ name: 'user', email: 'user@email.com', role: 'seller' });
+    sinon.stub(Sale, "update").resolves([0]);
+    sinon.stub(Sale, "findOne").resolves(sale);
+
+    const response = await chai.request(app).put("/sales/99").send({
+      status: 'Em transito'
+    }).set("Authorization", sellerToken);
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal({ message: "Unsuccessfuly update" });
+  });
+
+  it("get /sales return all sales", async () => {
+    sinon.stub(Sale, "findAll").resolves(saleList);
+    sinon.stub(jwt, 'verify').resolves({ name: 'user', email: 'user@email.com', role: 'seller' });
+
+    const httpResponse = await chai.request(app)
+    .get("/sales")
+    .set("Authorization", sellerToken);
+
+    expect(httpResponse.status).to.equal(200);
+    expect(httpResponse.body).to.be.deep.equal(saleList);
   });
 });

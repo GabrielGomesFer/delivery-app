@@ -1,11 +1,6 @@
 const sinon = require("sinon");
-
 const chai = require("chai");
-
 const jwt = require("jsonwebtoken");
-
-// import * as chai from 'chai';
-
 const chaiHttp = require('chai-http');
 
 const { expect } = chai;
@@ -55,6 +50,14 @@ describe('Testes backend endpoint /Gets', () => {
 
             expect(httpResponse.status).to.equal(200);
             expect(httpResponse.body).to.be.deep.equal(mockedProducts);    
+        })
+        it('Invalid token', async () => {
+            const httpResponse = await chai
+            .request(app)
+            .get('/product').set("Authorization", 'Invalid token');
+
+            expect(httpResponse.status).to.equal(401);
+            expect(httpResponse.body).to.be.deep.equal({ message: "Token not found" });    
         })
         it('Erro de token cliente', async () => {
             const httpResponse = await chai

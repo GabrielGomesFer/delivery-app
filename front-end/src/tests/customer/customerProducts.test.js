@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helper/renderWithRouter';
 import App from '../../App';
 
-import validToken from '../mocks/token';
+import userLS from '../mocks/userLSMock';
 import { mockedProducts } from '../mocks/productsMocks';
 
 jest.mock('axios');
@@ -15,7 +15,7 @@ describe('Test Products', () => {
     it('add 2 remove 1 and go to checkout', () => {
       const { history } = renderWithRouter(<App />);
       // Storage.prototype.setItem = jest.fn();
-      localStorage.setItem('token', JSON.stringify(validToken));
+      localStorage.setItem('user', JSON.stringify(userLS));
 
       // console.log('teste de log localstorage', JSON.parse(localStorage.getItem('token')));
       history.push('/customer/products');
