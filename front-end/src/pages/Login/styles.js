@@ -18,6 +18,10 @@ export const SImg = styled.div`
     width: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 414px) {
+    display: none;
+  }
 `;
 
 export const SLoginForm = styled.form`
@@ -33,6 +37,10 @@ export const SLoginForm = styled.form`
   h1 {
     font-weight: 700;
     font-size: 1.5rem;
+  }
+
+  @media (max-width: 414px) {
+    width: 100%;
   }
 `;
 

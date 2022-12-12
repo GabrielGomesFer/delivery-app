@@ -5,17 +5,15 @@ import { useHistory } from 'react-router-dom';
 import Button from '../../../../components/Customer/Button';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
-import { readCart } from '../../../../localstorage';
 import { SCard, SProducts, SProductsWrapper, STotalCart } from './styles';
 
 function CustomerProducts() {
   const history = useHistory();
-  const { totalPrice, totalValue } = useAppData();
+  const { totalPrice } = useAppData();
   const [products, setProducts] = useState();
 
-  const { token } = JSON.parse(localStorage.getItem('user'));
-
   useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem('user'));
     axios
       .get('http://localhost:3001/product', {
         headers: {
@@ -25,13 +23,11 @@ function CustomerProducts() {
       .then((response) => {
         const { data } = response;
         setProducts(data);
-        const getCart = readCart();
-        totalValue(getCart);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, [token, totalValue]);
+  }, []);
 
   return (
     <SProductsWrapper>

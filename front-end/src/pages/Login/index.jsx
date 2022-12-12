@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Warning } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import {
   SError,
@@ -13,18 +13,28 @@ import {
 
 function Login() {
   const history = useHistory();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
+  const { email, password } = user;
 
-  const verifyInputEmail = ({ target: { value } }) => {
+  const setUserState = (name, value) => setUser({ ...user, [name]: value });
+
+  const verifyInputEmail = () => {
     const regexValidation = /\S+@\w+\.\w+/i;
     const finalValidation = regexValidation.test(email);
-    setEmail(value);
     setDisable(finalValidation);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      history.push('/');
+    }
+  }, [history]);
 
   const verifyError = async () => {
     axios
@@ -51,8 +61,10 @@ function Login() {
         }
       })
       .catch((err) => {
-        setEmail('');
-        setPassword('');
+        setUserState({
+          email: '',
+          password: '',
+        });
         setError(true);
         setErrorMessage(err.response.data.message);
         setTimeout(() => setError(false), '5' * '1000');
@@ -84,7 +96,10 @@ function Login() {
               placeholder="digite o seu email"
               name="email"
               value={ email }
-              onChange={ verifyInputEmail }
+              onChange={ ({ target: { name, value } }) => {
+                verifyInputEmail();
+                setUserState(name, value);
+              } }
               data-testid="common_login__input-email"
               autoComplete="off"
             />
@@ -97,7 +112,7 @@ function Login() {
               placeholder="digite a sua senha"
               name="password"
               value={ password }
-              onChange={ ({ target: { value } }) => setPassword(value) }
+              onChange={ ({ target: { name, value } }) => setUserState(name, value) }
               data-testid="common_login__input-password"
             />
           </label>

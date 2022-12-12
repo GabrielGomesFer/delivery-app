@@ -7,7 +7,7 @@ export const SProductsWrapper = styled.div`
 `;
 
 export const STotalCart = styled.button`
-  background-color: #dadde2;
+  background-color: #b1bdc5;
   margin-top: 3%;
   display: flex;
   align-items: center;
@@ -41,7 +41,7 @@ export const SCard = styled.div`
   justify-content: center;
   width: 250px;
   height: 300px;
-  background-color: #889FA5;
+  background-color: #dadde2;
   border-radius: 8px;
   color: whitesmoke;
   padding: 15px 0%;

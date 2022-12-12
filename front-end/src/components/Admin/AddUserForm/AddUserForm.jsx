@@ -1,22 +1,19 @@
-import { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import addUserFormDataTestIds from './data-testids';
+import { useState } from 'react';
 
 function AddUserForm({ errorHandler, usersTable }) {
+  const { setDisplayError } = errorHandler;
+  const { users, setUsers } = usersTable;
+
   const [user, setUser] = useState({
     name: '',
     email: '',
     password: '',
     role: 'customer',
   });
-  const MIN_LENGTH_NAME = 12;
-  const MIN_LENGTH_PASS = 6;
-  const EMAIL_REGEX = /\S+@\w+\.\w+/i;
 
-  const handleChange = ({ target: { value, name } }) => {
-    setUser({ ...user, [name]: value });
-  };
+  const setUserState = (name, value) => setUser({ ...user, [name]: value });
 
   const handleClick = async () => {
     const { token } = JSON.parse(localStorage.getItem('user'));
@@ -28,12 +25,16 @@ function AddUserForm({ errorHandler, usersTable }) {
           authorization: token,
         },
       });
-
-      setUser({ name: '', email: '', password: '', role: 'customer' });
-      usersTable.setUsers([...usersTable.users, user]);
+      setUsers([...users, user]);
+      setUser({
+        name: '',
+        email: '',
+        password: '',
+        role: 'customer',
+      });
     } catch (error) {
-      const { message } = error.response.data;
-      errorHandler.setDisplayError({ showError: true, message });
+      const { message } = error;
+      setDisplayError({ showError: true, message });
     }
   };
 
@@ -45,8 +46,8 @@ function AddUserForm({ errorHandler, usersTable }) {
           name="name"
           type="text"
           value={ user.name }
-          onChange={ handleChange }
-          data-testid={ addUserFormDataTestIds.inputName }
+          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+          data-testid="admin_manage__input-name"
         />
       </label>
       <label htmlFor="email">
@@ -55,8 +56,8 @@ function AddUserForm({ errorHandler, usersTable }) {
           name="email"
           type="text"
           value={ user.email }
-          onChange={ handleChange }
-          data-testid={ addUserFormDataTestIds.inputEmail }
+          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+          data-testid="admin_manage__input-email"
         />
       </label>
       <label htmlFor="password">
@@ -65,17 +66,17 @@ function AddUserForm({ errorHandler, usersTable }) {
           name="password"
           type="password"
           value={ user.password }
-          onChange={ handleChange }
-          data-testid={ addUserFormDataTestIds.inputPass }
+          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+          data-testid="admin_manage__input-password"
         />
       </label>
       <label htmlFor="role">
         Tipo:
         <select
           name="role"
-          data-testid={ addUserFormDataTestIds.inputRole }
+          data-testid="admin_manage__select-role"
           value={ user.role }
-          onChange={ handleChange }
+          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
         >
           <option value="customer">Cliente</option>
           <option value="seller">Vendedor</option>
@@ -84,12 +85,12 @@ function AddUserForm({ errorHandler, usersTable }) {
       </label>
       <button
         type="button"
-        data-testid={ addUserFormDataTestIds.registerButton }
-        onClick={ handleClick }
+        data-testid="admin_manage__button-register"
+        onClick={ () => handleClick() }
         disabled={
-          user.name.length < MIN_LENGTH_NAME
-          || !EMAIL_REGEX.test(user.email)
-          || user.password.length < MIN_LENGTH_PASS
+          user.name.length < '12'
+          || !/\S+@\w+\.\w+/i.test(user.email)
+          || user.password.length < '6'
         }
       >
         Cadastrar
@@ -116,4 +117,5 @@ AddUserForm.propTypes = {
     setUsers: PropTypes.func,
   }).isRequired,
 };
+
 export default AddUserForm;

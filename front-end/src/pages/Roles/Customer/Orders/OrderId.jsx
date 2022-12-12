@@ -12,12 +12,11 @@ function OrderId() {
   const { id } = useParams();
   const [infos, setInfos] = useState(null);
   const [getStatus, setGetStatus] = useState('Pendente');
-  const [disable, setDisable] = useState(true);
-
-  const { token } = JSON.parse(localStorage.getItem('user'));
+  const [disable, setDisable] = useState(false);
 
   const TEST_ID = 'customer_order_details__element-order-details-label-delivery-status';
 
+  const { token } = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     axios
       .get(`http://localhost:3001/sales/${id}`, {
