@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Warning } from 'phosphor-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import {
   SError,
@@ -29,6 +29,12 @@ function Login() {
     const finalValidation = regexValidation.test(email);
     setDisable(finalValidation);
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      history.push('/');
+    }
+  }, [history]);
 
   const verifyError = async () => {
     axios

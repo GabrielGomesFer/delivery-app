@@ -7,12 +7,11 @@ function AddUserForm({ errorHandler, usersTable }) {
   const { users, setUsers } = usersTable;
 
   const [user, setUser] = useState({
-    username: '',
+    name: '',
     email: '',
     password: '',
     role: 'customer',
   });
-  const { username, email, password, role } = user;
 
   const setUserState = (name, value) => setUser({ ...user, [name]: value });
 
@@ -26,16 +25,16 @@ function AddUserForm({ errorHandler, usersTable }) {
           authorization: token,
         },
       });
+      setUsers([...users, user]);
       setUser({
-        username: '',
+        name: '',
         email: '',
         password: '',
         role: 'customer',
       });
-      setUsers([...users, user]);
     } catch (error) {
-      const { message } = error.response.data;
-      setDisplayError({ showError, message });
+      const { message } = error;
+      setDisplayError({ showError: true, message });
     }
   };
 
@@ -46,7 +45,7 @@ function AddUserForm({ errorHandler, usersTable }) {
         <input
           name="name"
           type="text"
-          value={ username }
+          value={ user.name }
           onChange={ ({ target: { name, value } }) => setUserState(name, value) }
           data-testid="admin_manage__input-name"
         />
@@ -56,7 +55,7 @@ function AddUserForm({ errorHandler, usersTable }) {
         <input
           name="email"
           type="text"
-          value={ email }
+          value={ user.email }
           onChange={ ({ target: { name, value } }) => setUserState(name, value) }
           data-testid="admin_manage__input-email"
         />
@@ -66,7 +65,7 @@ function AddUserForm({ errorHandler, usersTable }) {
         <input
           name="password"
           type="password"
-          value={ password }
+          value={ user.password }
           onChange={ ({ target: { name, value } }) => setUserState(name, value) }
           data-testid="admin_manage__input-password"
         />
@@ -76,7 +75,7 @@ function AddUserForm({ errorHandler, usersTable }) {
         <select
           name="role"
           data-testid="admin_manage__select-role"
-          value={ role }
+          value={ user.role }
           onChange={ ({ target: { name, value } }) => setUserState(name, value) }
         >
           <option value="customer">Cliente</option>

@@ -15,7 +15,7 @@ function AdminManage() {
   return (
     <>
       <Header title="Produtos" url="/admin/manage" />
-      { showError && (
+      {showError && (
         <span
           data-testid="admin_manage__element-invalid-register"
         >

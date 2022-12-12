@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 function UserTable({ usersState }) {
   const { users, setUsers } = usersState;
 
+  const { token } = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
-    const { token } = JSON.parse(localStorage.getItem('user'));
     const getUsers = async () => {
       try {
         const { data } = await axios.get('http://localhost:3001/user', {
@@ -17,12 +17,11 @@ function UserTable({ usersState }) {
         const dbUsers = data.filter(({ role }) => role !== 'administrator');
         setUsers(dbUsers);
       } catch (error) {
-        const { message } = error.response.data;
-        console.log(message);
+        console.log(error.message);
       }
     };
     getUsers();
-  }, [setUsers]);
+  }, [setUsers, token]);
 
   const handleClick = async (userId) => {
     try {
@@ -31,11 +30,10 @@ function UserTable({ usersState }) {
           authorization: token,
         },
       });
-
-      const newUserList = users.filter(({ id }) => id !== userId);
+      const newUserList = await users.filter(({ id }) => id !== userId);
       setUsers(newUserList);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -74,7 +72,7 @@ function UserTable({ usersState }) {
               { role }
             </td>
             <td
-              data-testid={ `admin_manage__element-user-table-remove-}${i}` }
+              data-testid={ `admin_manage__element-user-table-remove-${i}` }
             >
               <button
                 type="button"
