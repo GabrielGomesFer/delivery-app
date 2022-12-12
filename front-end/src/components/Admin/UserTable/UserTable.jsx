@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
-import userTableTestIds from './date-testids';
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-function UserTable({ users, setUsers }) {
-  const { token } = JSON.parse(localStorage.getItem('user'));
+function UserTable({ usersState }) {
+  const { users, setUsers } = usersState;
 
   useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem('user'));
     const getUsers = async () => {
       try {
         const { data } = await axios.get('http://localhost:3001/user', {
@@ -17,12 +17,12 @@ function UserTable({ users, setUsers }) {
         const dbUsers = data.filter(({ role }) => role !== 'administrator');
         setUsers(dbUsers);
       } catch (error) {
-        console.log(error);
+        const { message } = error.response.data;
+        console.log(message);
       }
     };
-
     getUsers();
-  }, [setUsers, token]);
+  }, [setUsers]);
 
   const handleClick = async (userId) => {
     try {
@@ -51,38 +51,55 @@ function UserTable({ users, setUsers }) {
         </tr>
       </thead>
       <tbody>
-        {
-          users.map(({ id, name, email, role }, i) => (
-            <tr key={ i }>
-              <td data-testid={ `${userTableTestIds.tableItem}${i}` }>{ i + 1 }</td>
-              <td data-testid={ `${userTableTestIds.tableName}${i}` }>{ name }</td>
-              <td data-testid={ `${userTableTestIds.tableEmail}${i}` }>{ email }</td>
-              <td data-testid={ `${userTableTestIds.tableRole}${i}` }>{ role }</td>
-              <td data-testid={ `${userTableTestIds.tableRm}${i}` }>
-                <button
-                  type="button"
-                  onClick={ () => handleClick(id) }
-                >
-                  Excluir
-
-                </button>
-              </td>
-            </tr>
-          ))
-        }
+        {users.map(({ id, name, email, role }, i) => (
+          <tr key={ i }>
+            <td
+              data-testid={ `admin_manage__element-user-table-item-number-${i}` }
+            >
+              { i + 1 }
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-name-${i}` }
+            >
+              { name }
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-email-${i}` }
+            >
+              { email }
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-role-${i}` }
+            >
+              { role }
+            </td>
+            <td
+              data-testid={ `admin_manage__element-user-table-remove-}${i}` }
+            >
+              <button
+                type="button"
+                onClick={ () => handleClick(id) }
+              >
+                Excluir
+              </button>
+            </td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );
 }
 
 UserTable.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    email: PropTypes.string,
-    role: PropTypes.string,
-  })).isRequired,
-  setUsers: PropTypes.func.isRequired,
+  usersState: PropTypes.shape({
+    users: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      email: PropTypes.string,
+      role: PropTypes.string,
+    })).isRequired,
+    setUsers: PropTypes.func.isRequired,
+  }).isRequired,
 
 };
 

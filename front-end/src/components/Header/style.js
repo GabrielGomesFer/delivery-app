@@ -7,7 +7,7 @@ export const SHeader = styled.header`
   width: 100%;
   border-bottom: 1px solid #3a3430;
   padding: 7px;
-  background-color: #B1BDC5;
+  background-color: #889fa5;
 `;
 
 export const SNavProducts = styled.div`

@@ -13,9 +13,8 @@ function CustomerProducts() {
   const { totalPrice, totalValue } = useAppData();
   const [products, setProducts] = useState();
 
-  const { token } = JSON.parse(localStorage.getItem('user'));
-
   useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem('user'));
     axios
       .get('http://localhost:3001/product', {
         headers: {
@@ -31,7 +30,7 @@ function CustomerProducts() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, [token, totalValue]);
+  }, [totalValue]);
 
   return (
     <SProductsWrapper>

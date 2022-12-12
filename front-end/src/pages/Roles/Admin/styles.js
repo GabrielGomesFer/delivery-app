@@ -1,4 +1,5 @@
 import styled from 'styled-components';
 
-export const SAdminPageContainer = styled.main``;
-export const SAddUserFormContainer = styled.div``;
+export const SAdminPage = styled.div``;
+export const SAdminPageForm = styled.div``;
+export const SAdminPageTable = styled.div``;
