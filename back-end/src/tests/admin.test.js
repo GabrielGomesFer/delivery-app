@@ -3,7 +3,6 @@ const sinon = require("sinon");
 const chai = require("chai");
 
 const jwt = require("jsonwebtoken");
-// import * as chai from 'chai';
 
 const chaiHttp = require("chai-http");
 
@@ -17,7 +16,7 @@ const { expect } = chai;
 const { admToken } = require("./mocks/admToken");
 const { mockUsers, mockCustomer } = require("./mocks/mockUsers")
 
-describe("Rota /user do ADMIN", () => {
+describe("Rota /user/register do ADMIN", () => {
   afterEach(() => sinon.restore());
   describe("POST ADM", () => {
     it("quando o email já existe", async () => {
@@ -33,11 +32,12 @@ describe("Rota /user do ADMIN", () => {
 
       const httpResponse = await chai
         .request(app)
-        .post("/user")
+        .post("/user/register")
         .send({
           name: "Cliente Teste",
           email: "zebirita@email.com",
           password: "123456",
+          role: "seller",
         })
         .set("Authorization", admToken);
       expect(httpResponse.status).to.equal(409);
@@ -95,4 +95,26 @@ describe("Rota /user do ADMIN", () => {
         expect(httpResponse.body).to.be.deep.equal(mockCustomer);
     })
   })
+
+  describe('DELETE User', () => {
+    it('Delete a user with success', async () => {
+        sinon.stub(User, "findOne").resolves(mockCustomer);
+
+        const httpResponse = await chai.request(app).delete("/user/3")
+        .set("Authorization", admToken);
+
+        expect(httpResponse.status).to.equal(204);
+        expect(httpResponse.body).to.be.deep.equal({});
+    })
+
+    it('User not found on delete', async () => {
+        sinon.stub(User, "findOne").resolves();
+
+        const httpResponse = await chai.request(app).delete("/user/99")
+        .set("Authorization", admToken);
+
+        expect(httpResponse.status).to.equal(404);
+        expect(httpResponse.body).to.be.deep.equal({ message: "User not found" });
+    });
+  });
 });

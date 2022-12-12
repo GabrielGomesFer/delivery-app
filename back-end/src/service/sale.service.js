@@ -54,8 +54,7 @@ const getAllSales = async () => Sale.findAll({
 });
 
 const updateSaleStatus = async (status, id) => {
-  const isSaleExist = await getSaleById(id);
-  if (!isSaleExist) errorThrower(404, 'Sale not found!');
+  await getSaleById(id);
 
   const [isUpdated] = await Sale.update({ status }, { where: { id } });
   if (!isUpdated) errorThrower(400, 'Unsuccessfuly update');
