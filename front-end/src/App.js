@@ -1,5 +1,6 @@
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AdminManage from './pages/Roles/Admin/AdminManage';
@@ -12,9 +13,7 @@ import SellerOrders from './pages/Roles/Seller/SellerOrders';
 function App() {
   return (
     <Switch>
-      <Route exact path="/">
-        <Redirect to="/login" />
-      </Route>
+      <Route exact path="/" component={ Home } />
       <Route path="/login" component={ Login } />
       <Route path="/register" component={ Register } />
       <Route path="/customer/products" component={ Products } />

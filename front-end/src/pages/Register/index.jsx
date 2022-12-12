@@ -13,17 +13,21 @@ import {
 
 function Register() {
   const history = useHistory();
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [disable, setDisable] = useState(true);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [user, setUser] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const { username, email, password } = user;
 
-  const verifyInputEmail = ({ target: { value } }) => {
+  const setUserState = (name, value) => setUser({ ...user, [name]: value });
+
+  const verifyInputEmail = () => {
     const regexValidation = /\S+@\w+\.\w+/i;
     const finalValidation = regexValidation.test(email);
-    setEmail(value);
     setDisable(finalValidation);
   };
 
@@ -45,9 +49,11 @@ function Register() {
         history.push('/customer/products');
       })
       .catch((err) => {
-        setUsername('');
-        setEmail('');
-        setPassword('');
+        setUser({
+          username: '',
+          email: '',
+          password: '',
+        });
         setError(true);
         setErrorMessage(err.response.data.message);
         setTimeout(() => setError(false), '5' * '1000');
@@ -79,7 +85,7 @@ function Register() {
               placeholder="digite o seu nome"
               name="username"
               value={ username }
-              onChange={ ({ target: { value } }) => setUsername(value) }
+              onChange={ ({ target: { name, value } }) => setUserState(name, value) }
               data-testid="common_register__input-name"
               autoComplete="off"
             />
@@ -92,7 +98,10 @@ function Register() {
               placeholder="digite o seu email"
               name="email"
               value={ email }
-              onChange={ verifyInputEmail }
+              onChange={ ({ target: { name, value } }) => {
+                verifyInputEmail();
+                setUserState(name, value);
+              } }
               data-testid="common_register__input-email"
               autoComplete="off"
             />
@@ -105,7 +114,7 @@ function Register() {
               placeholder="digite a sua senha"
               name="password"
               value={ password }
-              onChange={ ({ target: { value } }) => setPassword(value) }
+              onChange={ ({ target: { name, value } }) => setUserState(name, value) }
               data-testid="common_register__input-password"
             />
           </label>

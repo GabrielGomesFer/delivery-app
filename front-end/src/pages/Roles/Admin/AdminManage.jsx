@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import Header from '../../../components/Header';
 import AddUserForm from '../../../components/Admin/AddUserForm/AddUserForm';
-import ERROR_TEST_ID from './data-testids';
-import { SAdminPageContainer } from './styles';
 import UserTable from '../../../components/Admin/UserTable/UserTable';
+import Header from '../../../components/Header';
+import { SAdminPage, SAdminPageForm, SAdminPageTable } from './styles';
 
 function AdminManage() {
   const [users, setUsers] = useState([]);
@@ -11,19 +10,32 @@ function AdminManage() {
     showError: false,
     message: '',
   });
+  const { showError, message } = displayError;
 
   return (
-    <SAdminPageContainer>
+    <>
       <Header title="Produtos" url="/admin/manage" />
-      { displayError.showError && (
-        <span data-testid={ ERROR_TEST_ID }>{ displayError.message }</span>
+      {showError && (
+        <span
+          data-testid="admin_manage__element-invalid-register"
+        >
+          { message }
+        </span>
       )}
-      <AddUserForm
-        errorHandler={ { displayError, setDisplayError } }
-        usersTable={ { users, setUsers } }
-      />
-      <UserTable users={ users } setUsers={ setUsers } />
-    </SAdminPageContainer>
+      <SAdminPage>
+        <SAdminPageForm>
+          <AddUserForm
+            errorHandler={ { setDisplayError } }
+            usersTable={ { users, setUsers } }
+          />
+        </SAdminPageForm>
+        <SAdminPageTable>
+          <UserTable
+            usersState={ { users, setUsers } }
+          />
+        </SAdminPageTable>
+      </SAdminPage>
+    </>
   );
 }
 
