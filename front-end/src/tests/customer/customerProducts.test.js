@@ -4,7 +4,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helper/renderWithRouter';
 import App from '../../App';
-
 import userLS from '../mocks/userLSMock';
 import { mockedProducts } from '../mocks/productsMocks';
 
@@ -12,74 +11,86 @@ jest.mock('axios');
 
 describe('Test Products', () => {
   describe('Testa funcionamento da página de produtos', () => {
-    it('add 2 remove 1 and go to checkout', () => {
-      const { history } = renderWithRouter(<App />);
-      // Storage.prototype.setItem = jest.fn();
-      localStorage.setItem('user', JSON.stringify(userLS));
-
-      // console.log('teste de log localstorage', JSON.parse(localStorage.getItem('token')));
-      history.push('/customer/products');
-
+    beforeEach(() => {
       axios.get.mockImplementation(async () => Promise.resolve(
         { data: mockedProducts },
       ));
+    });
 
-      const cardPrice = screen
-        .queryByTestId('customer_products__element-card-price-<id>');
+    afterEach(() => jest.clearAllMocks());
+    it('Test if elements are render', async () => {
+      // axios.get.mockImplementation(async () => Promise.resolve(
+      //   { data: mockedProducts },
+      // ));
 
-      const cardImage = screen
-        .queryByTestId('customer_products__img-card-bg-image-<id>');
+      const { history } = renderWithRouter(<App />);
+      localStorage.setItem('user', JSON.stringify(userLS));
 
-      const cardTitle = screen
-        .queryByTestId('customer_products__element-card-title-<id>');
+      history.push('/');
 
-      const buttonCardRemove = screen
-        .queryByTestId('customer_products__button-card-rm-item-<id>');
+      const randomNumber = () => Math
+        .floor((Math.random() * mockedProducts.length) + 1);
 
-      const buttonCardAdd = screen
-        .queryByTestId('customer_products__button-card-add-item-<id>');
+      const cardPrice = await screen
+        .findByTestId(`customer_products__element-card-price-${randomNumber()}`);
+      const cardImage = await screen
+        .findByTestId(`customer_products__img-card-bg-image-${randomNumber()}`);
+      const cardTitle = await screen
+        .findByTestId(`customer_products__element-card-title-${randomNumber()}`);
+      const buttonCardRemove = await screen
+        .findByTestId(`customer_products__button-card-rm-item-${randomNumber()}`);
+      const buttonCardAdd = await screen
+        .findByTestId(`customer_products__button-card-add-item-${randomNumber()}`);
+      const itemQuantity = await screen
+        .findByTestId(`customer_products__input-card-quantity-${randomNumber()}`);
+      const buttonCart = await screen
+        .findByTestId('customer_products__button-cart');
+      const buttonCheckout = await screen
+        .findByTestId('customer_products__checkout-bottom-value');
 
-      const itemQuantity = screen
-        .queryByTestId('customer_products__input-card-quantity-<id>');
+      expect(cardPrice).toBeInTheDocument();
+      expect(cardImage).toBeInTheDocument();
+      expect(cardTitle).toBeInTheDocument();
+      expect(buttonCardRemove).toBeInTheDocument();
+      expect(buttonCardAdd).toBeInTheDocument();
+      expect(itemQuantity).toBeInTheDocument();
+      expect(buttonCart).toBeInTheDocument();
+      expect(buttonCheckout).toBeInTheDocument();
+    });
 
-      const buttonCart = screen
-        .queryByTestId('customer_products__button-cart');
+    it('Test buttons of products', async () => {
+      const { history } = renderWithRouter(<App />);
+      localStorage.setItem('user', JSON.stringify(userLS));
 
-      const buttonCheckout = screen
-        .queryByTestId('customer_products__checkout-bottom-value');
+      history.push('/');
 
-      waitFor(() => expect(cardPrice).toBeInTheDocument());
-      waitFor(() => expect(cardImage).toBeInTheDocument());
-      waitFor(() => expect(cardTitle).toBeInTheDocument());
-      waitFor(() => expect(buttonCardRemove).toBeInTheDocument());
-      waitFor(() => expect(buttonCardAdd).toBeInTheDocument());
-      waitFor(() => expect(itemQuantity).toBeInTheDocument());
-      waitFor(() => expect(buttonCart).toBeInTheDocument());
-      waitFor(() => expect(buttonCheckout).toBeInTheDocument());
+      const buttonCardAdd = await screen
+        .findByTestId('customer_products__button-card-add-item-1');
+      const buttonCardRemove = await screen
+        .findByTestId('customer_products__button-card-rm-item-1');
+      const itemQuantity = await screen
+        .findByTestId('customer_products__input-card-quantity-1');
+      const buttonCheckout = await screen
+        .findByTestId('customer_products__checkout-bottom-value');
 
-      waitFor(() => userEvent.click(buttonCardAdd[0]));
+      expect(buttonCheckout.innerHTML).toBe('R$&nbsp;0,00');
 
-      waitFor(() => expect(itemQuantity[0].value).to.be(1));
+      userEvent.click(buttonCardAdd);
+      userEvent.click(buttonCardAdd);
+      userEvent.click(buttonCardAdd);
 
-      waitFor(() => expect(buttonCheckout.value).to.be('4,49'));
+      userEvent.click(buttonCardRemove);
 
-      waitFor(() => userEvent.click(buttonCardAdd[0]));
+      expect(itemQuantity.value).toBe('2');
 
-      waitFor(() => expect(itemQuantity[0].value).to.be(2));
+      expect(buttonCheckout.innerHTML).toBe('R$&nbsp;4,40');
 
-      waitFor(() => expect(buttonCheckout.value).to.be('9,98'));
-
-      waitFor(() => userEvent.click(buttonCardRemove[0]));
-
-      waitFor(() => expect(itemQuantity[0].value).to.be(1));
-
-      waitFor(() => expect(buttonCheckout.value).to.be('4,49'));
+      const buttonCart = await screen
+        .findByTestId('customer_products__button-cart');
 
       userEvent.click(buttonCart);
 
       waitFor(() => expect(history.location.pathname).toBe('/customer/checkout'));
-
-      jest.clearAllMocks();
     });
   });
 });

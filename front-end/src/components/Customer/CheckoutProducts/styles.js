@@ -1,4 +1,4 @@
 import styled from 'styled-components';
 
-export const SCheckout = styled.div``;
+export const SCheckout = styled.tr``;
 export const SCartDetails = styled.div``;

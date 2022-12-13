@@ -20,7 +20,9 @@ function CheckoutProducts({
   const history = useHistory();
   return (
     <SCheckout>
-      <img src={ urlImage } alt={ name } height="100px" />
+      <td>
+        <img src={ urlImage } alt={ name } height="100px" />
+      </td>
       <td data-testid={ dataTestIndex }>
         { i + 1 }
       </td>
