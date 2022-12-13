@@ -49,13 +49,14 @@ function Register() {
         history.push('/customer/products');
       })
       .catch((err) => {
+        console.log(err.message);
         setUser({
           username: '',
           email: '',
           password: '',
         });
         setError(true);
-        setErrorMessage(err.response.data.message);
+        setErrorMessage('User already registered');
         setTimeout(() => setError(false), '5' * '1000');
       });
   };

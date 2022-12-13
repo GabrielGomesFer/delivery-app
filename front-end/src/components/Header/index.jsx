@@ -19,7 +19,7 @@ function Header({ title, url }) {
   const logOut = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('products');
-    history.push('/');
+    history.push('/login');
   };
 
   return (

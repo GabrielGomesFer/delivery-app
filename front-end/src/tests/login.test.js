@@ -4,20 +4,23 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helper/renderWithRouter';
 import App from '../App';
+import { mockedProducts } from './mocks/productsMocks';
 
 jest.mock('axios');
-
 describe('Testa a página de login', () => {
-  it('Verifica funcionalidade do login', () => {
-    axios.post.mockImplementation(() => Promise.resolve(
-      {
-        data: {
-          name: 'user',
-          email: 'user@email.com',
-          role: 'customer',
-          token: 'IsI9.eyJyc2VsbGVyIiwiZW',
-        } },
-    ));
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('Verifica funcionalidade do login', async () => {
+    axios.post.mockImplementation(async () => Promise.resolve({
+      data: {
+        name: 'user',
+        email: 'user@user.com',
+        role: 'customer',
+        token: 'IsI9.eyJyc2VsbGVyIiwiZW',
+      },
+    }));
 
     const { history } = renderWithRouter(<App />);
 
@@ -41,18 +44,21 @@ describe('Testa a página de login', () => {
 
     expect(button).not.toBeDisabled();
 
+    axios.get.mockImplementation(async () => Promise.resolve(
+      { data: mockedProducts },
+    ));
+
     userEvent.click(button);
 
-    waitFor(() => expect(history.location.pathname).toBe('/customer/products'));
+    await waitFor(() => expect(history.location.pathname).toBe('/customer/products'));
   });
 
   it('Testa se mensagem de erro aparece', () => {
-    it('Verifica funcionalidade do login', () => {
-      axios.post.mockImplementation(() => Promise
-        .reject(new Error('Incorrect email or password')));
-    });
+    axios.post.mockImplementation(async () => new Error('Incorrect email or password'));
+    localStorage.clear();
 
     renderWithRouter(<App />);
+
     const inputEmail = screen.getByTestId('common_login__input-email');
     const inputPassword = screen.getByTestId('common_login__input-password');
     const button = screen.queryByTestId('common_login__button-login');
@@ -75,14 +81,15 @@ describe('Testa a página de login', () => {
   });
 
   it('Vai para página de criar nova', () => {
+    localStorage.clear();
     const { history } = renderWithRouter(<App />);
+    history.push('/');
+    console.log(history.location.pathname);
 
     const createAccountButton = screen.getByTestId('common_login__button-register');
-
     expect(createAccountButton).toBeInTheDocument();
 
     expect(createAccountButton).not.toBeDisabled();
-
     userEvent.click(createAccountButton);
 
     expect(history.location.pathname).toBe('/register');

@@ -10,17 +10,20 @@ import { mockedProducts } from './mocks/productsMocks';
 jest.mock('axios');
 
 describe('Testa a página de Registro', () => {
-  it('Verifica funcionalidade do Registro', () => {
+  it('Verifica funcionalidade do Registro', async () => {
+    axios.post.mockImplementation(async () => Promise.resolve(
+      {
+        data: {
+          name: 'user',
+          email: 'user@user.com',
+          role: 'customer',
+          token: 'IsI9.eyJyc2VsbGVyIiwiZW',
+        },
+      },
+    ));
+
     const { history } = renderWithRouter(<App />);
     history.push('/register');
-
-    axios.post.mockImplementation(() => Promise.resolve(
-      { data: { token: 'IsI9.eyJyc2VsbGVyIiwiZW' } },
-    ));
-
-    axios.get.mockImplementation(() => Promise.resolve(
-      { data: mockedProducts },
-    ));
 
     const inputName = screen.getByTestId('common_register__input-name');
     const inputEmail = screen.getByTestId('common_register__input-email');
@@ -47,23 +50,23 @@ describe('Testa a página de Registro', () => {
 
     expect(button).not.toBeDisabled();
 
+    axios.get.mockImplementation(() => Promise.resolve(
+      { data: mockedProducts },
+    ));
+
     userEvent.click(button);
 
-    waitFor(() => expect(history.location.pathname).toBe('/customer/products'));
+    await waitFor(() => expect(history.location.pathname).toBe('/customer/products'));
 
     jest.clearAllMocks();
   });
 
   it('Testa se mensagem de erro aparece', async () => {
+    localStorage.clear();
+    axios.post.mockImplementation(async () => new Error('User already registered'));
+
     const { history } = renderWithRouter(<App />);
     history.push('/register');
-
-    axios.post.mockImplementation(() => Promise.resolve(
-      { data: { message: 'User alredy registered' } },
-    ));
-    axios.get.mockImplementation(() => Promise.resolve(
-      { data: { message: '' } },
-    ));
 
     const inputName = screen.getByTestId('common_register__input-name');
     const inputEmail = screen.getByTestId('common_register__input-email');

@@ -3,28 +3,16 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helper/renderWithRouter';
 import App from '../../App';
+import userLS from '../mocks/userLSMock';
 
 describe('Teste aba Products', () => {
   describe('Testes header', () => {
     it('testa se trazem os dados corretamente para o header', async () => {
       const { history } = renderWithRouter(<App />);
 
-      const inputEmail = screen.getByTestId('common_login__input-email');
-      const inputPassword = screen.getByTestId('common_login__input-password');
-      const button = screen.getByTestId('common_login__button-login');
+      localStorage.setItem('user', JSON.stringify(userLS));
 
-      expect(inputEmail).toBeInTheDocument();
-      expect(inputPassword).toBeInTheDocument();
-      expect(button).toBeInTheDocument();
-
-      userEvent.type(inputEmail, 'zebirita@email.com');
-      userEvent.type(inputPassword, '$#zebirita#$');
-
-      userEvent.click(button);
-
-      // localStorage.setItem('user', JSON.stringify(userLS));
-
-      // history.push('/customer/products');
+      history.push('/');
 
       await waitFor(() => {
         expect(history.location.pathname).toBe('/customer/products');
@@ -57,14 +45,7 @@ describe('Teste aba Products', () => {
 
       userEvent.click(logOut);
 
-      // Storage.prototype.setItem = jest.fn();
-      // localStorage.setItem('user', JSON.stringify('teste@teste.com', 'cliente'));
-      const afterLogoutLS = JSON.parse(localStorage.getItem('user'));
-
-      expect(afterLogoutLS).toBeNull();
       expect(history.location.pathname).toBe('/login');
-
-      jest.clearAllMocks();
     });
   });
 });

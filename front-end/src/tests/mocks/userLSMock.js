@@ -7,4 +7,4 @@ const userLS = {
   token: validToken,
 };
 
-module.exports = { userLS };
+module.exports = userLS;
