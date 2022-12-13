@@ -7,12 +7,13 @@ export const SAddress = styled.div`
   padding: 30px;
 
   button {
-    width: 40%;
-    color: whitesmoke;
+    width: 90%;
+    color: black;
     padding: 14px 12px;
     border-radius: 10px;
     cursor: pointer;
-    background-color: #8b5cf6;
+    background-color: #36D399;
+    margin: auto;
   }
 
   button:disabled {
@@ -22,13 +23,15 @@ export const SAddress = styled.div`
 
 export const SAddressForm = styled.div`
   display: flex;
+  justify-content: center;
   flex-direction: column;
+  align-items: center;
 
   label {
     display: flex;
     flex-direction: column;
-    max-width: 40%;
     justify-content: center;
+    min-width: 90%;
 
     p {
       font-size: 12px;

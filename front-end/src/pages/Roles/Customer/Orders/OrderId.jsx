@@ -4,17 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CheckoutProducts from '../../../../components/Customer/CheckoutProducts';
 import Header from '../../../../components/Header';
-import useAppData from '../../../../context/hooks/useAppData';
-import { readCart } from '../../../../localstorage';
 import { SH1, STable, STotalValue } from '../Checkout/styles';
 import { SRequestInfos } from './idStyles';
 
 function OrderId() {
-  const { totalPrice, totalValue } = useAppData();
   const { id } = useParams();
   const [infos, setInfos] = useState(null);
-  const [getStatus, setGetStatus] = useState('Pendente');
-  const [disable, setDisable] = useState(true);
+  const [getStatus, setGetStatus] = useState('');
+  const [newTotalValue, setNewTotalValue] = useState(0);
 
   const TEST_ID = 'customer_order_details__element-order-details-label-delivery-status';
 
@@ -28,17 +25,14 @@ function OrderId() {
       })
       .then((response) => {
         const { data } = response;
+        setNewTotalValue(Number(data.totalPrice));
         setInfos(data);
-        const getCart = readCart();
-        totalValue(getCart);
-        if (data?.status === 'Entregue') {
-          setDisable(false);
-        }
+        setGetStatus(data.status);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, [id, token, totalValue]);
+  }, [id, token]);
 
   const updateOrder = () => {
     axios
@@ -92,7 +86,7 @@ function OrderId() {
             <button
               type="button"
               onClick={ () => updateOrder() }
-              disabled={ disable }
+              disabled={ getStatus !== 'Em Trânsito' }
               data-testid="customer_order_details__button-delivery-check"
             >
               Marcar Como Entregue
@@ -108,7 +102,6 @@ function OrderId() {
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
-            <th>Remover Item</th>
           </tr>
         </thead>
         <tbody>
@@ -145,7 +138,7 @@ function OrderId() {
       <STotalValue>
         <p>Valor Total:</p>
         <p data-testid="customer_order_details__element-order-total-price">
-          {totalPrice?.toLocaleString(
+          {newTotalValue?.toLocaleString(
             'pt-BR',
             { style: 'currency', currency: 'BRL' },
           ) ?? '0,00'}

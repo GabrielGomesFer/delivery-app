@@ -4,7 +4,7 @@ import CheckoutProducts from '../../../../components/Customer/CheckoutProducts';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
 import { deleteProducts, readCart } from '../../../../localstorage';
-import { STable, STotalValue, SH1 } from './styles';
+import { SH1, STable, STotalValue } from './styles';
 
 function CustomerCheckout() {
   const { totalPrice, totalValue } = useAppData();
@@ -33,7 +33,7 @@ function CustomerCheckout() {
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
-            <th>Remover</th>
+            <th>Remover Item</th>
           </tr>
         </thead>
         <tbody>

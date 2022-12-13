@@ -15,16 +15,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #b1bdc5;
+  background: #262626;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #3a3430;
+  background-color: #b1bdc5;
   border-radius: 20px;
 }
 
 body {
-  background-color: #b1bdc5;
-  color: #3a3430;
+  background-color: #262626;
+  color: #b1bdc5;
   font-family: Montserrat , system-ui , sans-serif;
 }

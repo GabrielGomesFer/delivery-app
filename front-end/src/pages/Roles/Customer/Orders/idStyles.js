@@ -7,21 +7,21 @@ export const SRequestInfos = styled.div`
   padding: 12px;
   font-size: 15px;
   font-weight: 700;
-  gap: 50px;
+  gap: 30px;
 
   div {
     display: flex;
-    gap: 30px;
+    gap: 40px;
     align-items: center;
     justify-content: center;
 
     button {
-      width: 100%;
-      color: whitesmoke;
+      width: 200px;
       padding: 12px 14px;
       border-radius: 10px;
       cursor: pointer;
       background-color: #36D399;
+      color: #262626;
     }
 
     button:disabled {

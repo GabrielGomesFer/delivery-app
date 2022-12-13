@@ -17,13 +17,18 @@ export const STable = styled.table`
   
     tr {
       display: flex;
-      justify-content: space-around;
       align-items: center;
       height: 60px;
-      background: #FFED86;
+      background: #E2B659;
+      border-radius: 6px 6px 0 0;
+      color: black;
       font-size: 16px;
       width: 100%;
       font-weight: 700;
+
+      th {
+        width: 200px;
+      }
     }
   }
 

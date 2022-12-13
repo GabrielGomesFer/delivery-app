@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { Check } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { SAdminForm, SAdminButton, SAdminWrapper } from './styles';
 
 function AddUserForm({ errorHandler, usersTable }) {
   const { setDisplayError } = errorHandler;
@@ -39,63 +41,70 @@ function AddUserForm({ errorHandler, usersTable }) {
   };
 
   return (
-    <form>
-      <label htmlFor="name">
-        Nome:
-        <input
-          name="name"
-          type="text"
-          value={ user.name }
-          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
-          data-testid="admin_manage__input-name"
-        />
-      </label>
-      <label htmlFor="email">
-        Email:
-        <input
-          name="email"
-          type="text"
-          value={ user.email }
-          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
-          data-testid="admin_manage__input-email"
-        />
-      </label>
-      <label htmlFor="password">
-        Senha:
-        <input
-          name="password"
-          type="password"
-          value={ user.password }
-          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
-          data-testid="admin_manage__input-password"
-        />
-      </label>
-      <label htmlFor="role">
-        Tipo:
-        <select
-          name="role"
-          data-testid="admin_manage__select-role"
-          value={ user.role }
-          onChange={ ({ target: { name, value } }) => setUserState(name, value) }
-        >
-          <option value="customer">Cliente</option>
-          <option value="seller">Vendedor</option>
-          <option value="administrator">Administrador</option>
-        </select>
-      </label>
-      <button
-        type="button"
-        data-testid="admin_manage__button-register"
-        onClick={ () => handleClick() }
-        disabled={
-          user.name.length < '12'
-          || !/\S+@\w+\.\w+/i.test(user.email)
-          || user.password.length < '6'
-        }
-      >
-        Cadastrar
-      </button>
-    </form>
+    <SAdminWrapper>
+      <SAdminForm>
+        <label htmlFor="name">
+          Nome:
+          <input
+            name="name"
+            type="text"
+            value={ user.name }
+            onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+            data-testid="admin_manage__input-name"
+            autoComplete="off"
+          />
+        </label>
+        <label htmlFor="email">
+          Email:
+          <input
+            name="email"
+            type="text"
+            value={ user.email }
+            onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+            data-testid="admin_manage__input-email"
+            autoComplete="off"
+          />
+        </label>
+        <label htmlFor="password">
+          Senha:
+          <input
+            name="password"
+            type="password"
+            value={ user.password }
+            onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+            data-testid="admin_manage__input-password"
+            autoComplete="off"
+          />
+        </label>
+        <label htmlFor="role">
+          Tipo:
+          <select
+            name="role"
+            data-testid="admin_manage__select-role"
+            value={ user.role }
+            onChange={ ({ target: { name, value } }) => setUserState(name, value) }
+          >
+            <option value="customer">Cliente</option>
+            <option value="seller">Vendedor</option>
+            <option value="administrator">Administrador</option>
+          </select>
+        </label>
+        <SAdminButton>
+          <button
+            type="button"
+            data-testid="admin_manage__button-register"
+            onClick={ () => handleClick() }
+            disabled={
+              user.name.length < '12'
+            || !/\S+@\w+\.\w+/i.test(user.email)
+            || user.password.length < '6'
+            }
+          >
+            <Check size={ 32 } />
+          </button>
+        </SAdminButton>
+      </SAdminForm>
+    </SAdminWrapper>
   );
 }
 

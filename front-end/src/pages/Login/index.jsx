@@ -75,7 +75,10 @@ function Login() {
   return (
     <SLoginWrapper>
       <SImg>
-        <img src="https://picsum.photos/1000" alt="" />
+        <img
+          src="https://images.pexels.com/photos/159291/beer-machine-alcohol-brewery-159291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt="login imagem"
+        />
       </SImg>
       <SLoginForm>
         <h1>Entre com a sua conta</h1>
@@ -124,7 +127,7 @@ function Login() {
             data-testid="common_login__button-login"
             disabled={ !disable || password.length < '6' }
             onClick={ () => verifyError() }
-            style={ { backgroundColor: '#8b5cf6' } }
+            style={ { backgroundColor: '#F9F871', color: 'black' } }
           >
             Login
           </button>
@@ -133,7 +136,7 @@ function Login() {
             <button
               type="button"
               data-testid="common_login__button-register"
-              style={ { backgroundColor: '#ec2323' } }
+              style={ { backgroundColor: '#E2B659', color: 'black' } }
             >
               Ainda não tenho conta
             </button>

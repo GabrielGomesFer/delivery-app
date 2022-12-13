@@ -2,17 +2,16 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import {
-  SOrdersSeller,
-  SOrdersWrapperSeller,
-  SRequestIdSeller,
-  SRequestStatusSeller,
-  SRequestDetailsSeller,
-} from './styles';
 import Header from '../../../components/Header';
+import { SOrders,
+  SOrdersWrapper,
+  SRequestId,
+  SRequestStatus,
+  SRequestDetails,
+} from '../Customer/Orders/styles';
 
 function SellerOrders() {
-  const [orders, setOrders] = useState();
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const { token } = JSON.parse(localStorage.getItem('user'));
@@ -35,30 +34,32 @@ function SellerOrders() {
   return (
     <>
       <Header title="Pedidos" url="/seller/orders" />
-      <SOrdersSeller>
-        {!orders ? (
+      <SOrders>
+        {orders?.length === 0 ? (
           <p>Nenhum pedido aqui</p>
         ) : (
-          orders.map(({ id, saleDate, status, address, totalPrice }) => (
+          orders.map(({
+            id, saleDate, status, deliveryAddress, deliveryNumber, totalPrice,
+          }) => (
             <Link to={ `/seller/orders/${id}` } key={ id }>
-              <SOrdersWrapperSeller>
-                <SRequestIdSeller>
+              <SOrdersWrapper>
+                <SRequestId>
                   <p>Pedido:</p>
                   <p data-testid={ `seller_orders__element-order-id-${id}` }>{ id }</p>
-                </SRequestIdSeller>
-                <SRequestStatusSeller>
+                </SRequestId>
+                <SRequestStatus>
                   <p
                     data-testid={ `seller_orders__element-delivery-status-${id}` }
                   >
                     { status }
                   </p>
-                  <p
+                  <span
                     data-testid={ `seller_orders__element-card-address-${id}` }
                   >
-                    { address }
-                  </p>
-                </SRequestStatusSeller>
-                <SRequestDetailsSeller>
+                    {`${deliveryAddress}, ${deliveryNumber}`}
+                  </span>
+                </SRequestStatus>
+                <SRequestDetails>
                   <p
                     data-testid={ `seller_orders__element-order-date-${id}` }
                   >
@@ -70,12 +71,12 @@ function SellerOrders() {
                       { style: 'currency', currency: 'BRL' },
                     ) }
                   </p>
-                </SRequestDetailsSeller>
-              </SOrdersWrapperSeller>
+                </SRequestDetails>
+              </SOrdersWrapper>
             </Link>
           ))
         )}
-      </SOrdersSeller>
+      </SOrders>
     </>
   );
 }

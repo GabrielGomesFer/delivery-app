@@ -32,20 +32,23 @@ function CustomerProducts() {
   return (
     <SProductsWrapper>
       <Header title="Produtos" url="/customer/products" />
-      <STotalCart
-        disabled={ totalPrice === 0 }
-        data-testid="customer_products__button-cart"
-        onClick={ () => history.push('/customer/checkout') }
-      >
-        <ShoppingCartSimple size={ 30 } color="#000000" />
-        <p
-          data-testid="customer_products__checkout-bottom-value"
+      <STotalCart>
+        <button
+          type="button"
+          disabled={ totalPrice === 0 }
+          data-testid="customer_products__button-cart"
+          onClick={ () => history.push('/customer/checkout') }
         >
-          {totalPrice?.toLocaleString(
-            'pt-BR',
-            { style: 'currency', currency: 'BRL' },
-          ) ?? '0,00'}
-        </p>
+          <ShoppingCartSimple size={ 30 } />
+          <p
+            data-testid="customer_products__checkout-bottom-value"
+          >
+            {totalPrice?.toLocaleString(
+              'pt-BR',
+              { style: 'currency', currency: 'BRL' },
+            ) ?? '0,00'}
+          </p>
+        </button>
       </STotalCart>
       <SProducts>
         {products?.map(({ id, name, price, urlImage }) => (

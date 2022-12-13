@@ -64,7 +64,10 @@ function Register() {
   return (
     <SLoginWrapper>
       <SImg>
-        <img src="https://picsum.photos/1000" alt="" />
+        <img
+          src="https://images.pexels.com/photos/159291/beer-machine-alcohol-brewery-159291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          alt="login imagem"
+        />
       </SImg>
       <SLoginForm>
         <h1>Faça o cadastro de uma nova conta</h1>
@@ -126,7 +129,7 @@ function Register() {
             data-testid="common_register__button-register"
             disabled={ !disable || password.length < '6' || username.length < '12' }
             onClick={ () => verifyError() }
-            style={ { backgroundColor: '#8b5cf6' } }
+            style={ { backgroundColor: '#F9F871', color: 'black' } }
           >
             Cadastrar
           </button>
@@ -134,7 +137,7 @@ function Register() {
           <Link to="/login">
             <button
               type="button"
-              style={ { backgroundColor: '#ec2323' } }
+              style={ { backgroundColor: '#E2B659', color: 'black' } }
             >
               Já tenho uma conta
             </button>
