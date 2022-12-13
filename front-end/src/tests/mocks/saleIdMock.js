@@ -40,4 +40,4 @@ const saleOne = {
   ],
 };
 
-module.exports = { saleOne };
+module.exports = saleOne;

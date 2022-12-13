@@ -19,10 +19,6 @@ describe('Test Products', () => {
 
     afterEach(() => jest.clearAllMocks());
     it('Test if elements are render', async () => {
-      // axios.get.mockImplementation(async () => Promise.resolve(
-      //   { data: mockedProducts },
-      // ));
-
       const { history } = renderWithRouter(<App />);
       localStorage.setItem('user', JSON.stringify(userLS));
 
