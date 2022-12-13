@@ -47,11 +47,27 @@ const getSaleById = async (id) => {
   return sale;
 };
 
-const getAllSales = async () => Sale.findAll({
-  attributes: {
-    exclude: ['sellerId', 'userId'],
-  },
-});
+const getAllSales = async ({ role, email }) => {
+  if (role === 'seller') {
+    const seller = await User.findOne({ where: { email } }); 
+    const salesOfSeller = await Sale.findAll({
+      where: { sellerId: seller.id },
+      attributes: {
+        exclude: ['sellerId', 'userId'],
+      },
+    });
+    return salesOfSeller;
+  }
+  const customer = await User.findOne({ where: { email } }); 
+  const allSales = await Sale.findAll({
+    where: { userId: customer.id },
+    attributes: {
+      exclude: ['sellerId', 'userId'],
+    },
+  });
+
+  return allSales;
+};
 
 const updateSaleStatus = async (status, id) => {
   await getSaleById(id);

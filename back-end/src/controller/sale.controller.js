@@ -9,8 +9,9 @@ const saleRegister = async (req, res) => {
 
 const getSales = async (req, res) => {
   const { id } = req.params;
+  const { user } = req;
 
-  const sale = id ? await saleService.getSaleById(id) : await saleService.getAllSales();
+  const sale = id ? await saleService.getSaleById(id) : await saleService.getAllSales(user);
   return res.status(200).json(sale);
 };
 
