@@ -61,12 +61,13 @@ function Login() {
         }
       })
       .catch((err) => {
+        console.log(err.message);
         setUserState({
           email: '',
           password: '',
         });
         setError(true);
-        setErrorMessage(err.response.data.message);
+        setErrorMessage('Incorrect email or password');
         setTimeout(() => setError(false), '5' * '1000');
       });
   };
