@@ -29,19 +29,29 @@ function Header({ title, url }) {
           src="https://user-images.githubusercontent.com/99758843/204924163-ebb5518e-e604-4f3f-9428-ddd185235a8a.png"
           alt=""
         />
-        <a
-          data-testid="customer_products__element-navbar-link-products"
-          href={ url }
-        >
-          { title }
-        </a>
-        {user.role === 'customer' && (
+        {user.role === 'seller' && (
           <a
             data-testid="customer_products__element-navbar-link-orders"
-            href="/customer/orders"
+            href={ url }
           >
-            Meus Pedidos
+            { title }
           </a>
+        )}
+        {user.role === 'customer' && (
+          <>
+            <a
+              data-testid="customer_products__element-navbar-link-products"
+              href={ url }
+            >
+              { title }
+            </a>
+            <a
+              data-testid="customer_products__element-navbar-link-orders"
+              href="/customer/orders"
+            >
+              Meus Pedidos
+            </a>
+          </>
         )}
       </SNavProducts>
       <SUser>
