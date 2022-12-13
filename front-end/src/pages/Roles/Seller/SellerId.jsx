@@ -2,21 +2,18 @@ import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import CheckoutProducts from '../../../../components/Customer/CheckoutProducts';
-import Header from '../../../../components/Header';
-import useAppData from '../../../../context/hooks/useAppData';
-import { readCart } from '../../../../localstorage';
-import { SH1, STable, STotalValue } from '../Checkout/styles';
-import { SRequestInfos } from './idStyles';
+import CheckoutProducts from '../../../components/Customer/CheckoutProducts';
+import Header from '../../../components/Header';
+import useAppData from '../../../context/hooks/useAppData';
+import { readCart } from '../../../localstorage';
 
-function OrderId() {
+function SellerId() {
   const { totalPrice, totalValue } = useAppData();
   const { id } = useParams();
   const [infos, setInfos] = useState(null);
   const [getStatus, setGetStatus] = useState('Pendente');
-  const [disable, setDisable] = useState(true);
 
-  const TEST_ID = 'customer_order_details__element-order-details-label-delivery-status';
+  const TEST_ID = 'seller_order_details__element-order-details-label-delivery-status';
 
   const { token } = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
@@ -31,21 +28,18 @@ function OrderId() {
         setInfos(data);
         const getCart = readCart();
         totalValue(getCart);
-        if (data?.status === 'Entregue') {
-          setDisable(false);
-        }
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, [id, token, totalValue]);
 
-  const updateOrder = () => {
+  const updateOrder = (statusUpdated) => {
     axios
       .put(
         `http://localhost:3001/sales/${id}`,
         {
-          status: 'Entregue',
+          status: statusUpdated,
         },
         {
           headers: {
@@ -64,22 +58,17 @@ function OrderId() {
 
   return (
     <div>
-      <Header title="Produtos" url="/customer/products" />
-      <SH1>Detalhes do Pedido</SH1>
+      <Header title="Pedidos" url="/seller/orders" />
+      <h1>Detalhes do Pedido</h1>
       {infos && (
-        <SRequestInfos>
+        <div>
           <p
-            data-testid="customer_order_details__element-order-details-label-order-id"
+            data-testid="seller_order_details__element-order-details-label-order-id"
           >
             {`Pedido ${id}`}
           </p>
           <p
-            data-testid="customer_order_details__element-order-details-label-seller-name"
-          >
-            {`P. Vendedora ${infos.seller.name}`}
-          </p>
-          <p
-            data-testid="customer_order_details__element-order-details-label-order-date"
+            data-testid="seller_order_details__element-order-details-label-order-date"
           >
             {moment(infos.saleDate).format('DD/MM/YYYY')}
           </p>
@@ -91,16 +80,22 @@ function OrderId() {
             </p>
             <button
               type="button"
-              onClick={ () => updateOrder() }
-              disabled={ disable }
-              data-testid="customer_order_details__button-delivery-check"
+              onClick={ () => updateOrder('Preparando') }
+              data-testid="seller_order_details__button-preparing-check"
             >
-              Marcar Como Entregue
+              Preparar o Pedido
+            </button>
+            <button
+              type="button"
+              onClick={ () => updateOrder('Entregue') }
+              data-testid="seller_order_details__button-dispatch-check"
+            >
+              Saiu para a Entrega
             </button>
           </div>
-        </SRequestInfos>
+        </div>
       )}
-      <STable>
+      <table>
         <thead>
           <tr>
             <th>Item</th>
@@ -112,47 +107,44 @@ function OrderId() {
           </tr>
         </thead>
         <tbody>
-          {infos?.products.map(({
-            urlImage, name, price, SaleProduct: { quantity },
-          }, i) => (
+          {infos?.products.map(({ name, price, SaleProduct: { quantity } }, i) => (
             <CheckoutProducts
               key={ i }
-              urlImage={ urlImage }
               name={ name }
               price={ price }
               newPrice={ Number(price) * (quantity) }
               qtd={ quantity }
               i={ i }
               dataTestIndex={
-                `customer_order_details__element-order-table-item-number-${i}`
+                `seller_order_details__element-order-table-item-number-${i}`
               }
               dataTestDesc={
-                `customer_order_details__element-order-table-name-${i}`
+                `seller_order_details__element-order-table-name-${i}`
               }
               dataTestQtd={
-                `customer_order_details__element-order-table-quantity-${i}`
+                `seller_order_details__element-order-table-quantity-${i}`
               }
               dataTestVU={
-                `customer_order_details__element-order-table-unit-price-${i}`
+                `seller_order_details__element-order-table-unit-price-${i}`
               }
               dataTestSub={
-                `customer_order_details__element-order-table-sub-total-${i}`
+                `seller_order_details__element-order-table-sub-total-${i}`
               }
             />
           ))}
         </tbody>
-      </STable>
-      <STotalValue>
+      </table>
+      <div>
         <p>Valor Total:</p>
-        <p data-testid="customer_order_details__element-order-total-price">
+        <p data-testid="seller_order_details__element-order-total-price">
           {totalPrice?.toLocaleString(
             'pt-BR',
             { style: 'currency', currency: 'BRL' },
           ) ?? '0,00'}
         </p>
-      </STotalValue>
+      </div>
     </div>
   );
 }
 
-export default OrderId;
+export default SellerId;

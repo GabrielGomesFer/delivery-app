@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useAppData from '../../../context/hooks/useAppData';
 import { readCart } from '../../../localstorage';
-import { SAddress, SCart } from './styles';
+import { SAddress, SAddressForm } from './styles';
 
 function Address() {
   const history = useHistory();
@@ -74,11 +74,11 @@ function Address() {
   };
 
   return (
-    <div>
+    <SAddress>
       <h1>Detalhes para Entrega</h1>
-      <SAddress>
+      <SAddressForm>
         <label htmlFor="seller">
-          P. Vendedora Responsável
+          <p>P. Vendedora Responsável</p>
           <select
             data-testid="customer_checkout__select-seller"
             onClick={ ({ target: { value } }) => setIdSeller(value) }
@@ -90,7 +90,7 @@ function Address() {
           </select>
         </label>
         <label htmlFor="deliveryAddress">
-          Endereço
+          <p>Endereço</p>
           <input
             placeholder="digite o seu endereço"
             type="text"
@@ -102,7 +102,7 @@ function Address() {
           />
         </label>
         <label htmlFor="deliveryNumber">
-          Número
+          <p>Número</p>
           <input
             placeholder="digite o seu número"
             type="number"
@@ -112,18 +112,16 @@ function Address() {
             data-testid="customer_checkout__input-address-number"
           />
         </label>
-      </SAddress>
-      <SCart>
-        <button
-          onClick={ () => sendOrder() }
-          type="button"
-          disabled={ !deliveryAddress < '3' && !deliveryNumber }
-          data-testid="customer_checkout__button-submit-order"
-        >
-          Finalizar Pedido
-        </button>
-      </SCart>
-    </div>
+      </SAddressForm>
+      <button
+        onClick={ () => sendOrder() }
+        type="button"
+        disabled={ !deliveryAddress < '3' && !deliveryNumber }
+        data-testid="customer_checkout__button-submit-order"
+      >
+        Finalizar Pedido
+      </button>
+    </SAddress>
   );
 }
 
