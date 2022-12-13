@@ -62,6 +62,7 @@ function Address() {
       })
       .then((response) => {
         const { saleId } = response.data;
+        localStorage.removeItem('products');
         history.push(`/customer/orders/${saleId}`);
       })
       .catch((err) => {

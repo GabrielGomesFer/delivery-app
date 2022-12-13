@@ -6,20 +6,31 @@ export const SProductsWrapper = styled.div`
   height: 100vh;
 `;
 
-export const STotalCart = styled.button`
-  background-color: #b1bdc5;
-  margin-top: 3%;
+export const STotalCart = styled.div`
   display: flex;
-  align-items: center;
+  width: 80%;
+  margin: auto;
   justify-content: flex-end;
-  width: 89%;
-  cursor: pointer;
-  gap: 5px;
 
-  p {
-    font-size: 14px;
-    font-weight: 700;
-    color: black;
+  button {
+    background-color: #262626;
+    margin-top: 3%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    gap: 5px;
+    color: #b1bdc5;
+
+    p {
+      font-size: 14px;
+      font-weight: 700;
+    }
+  }
+
+  button:disabled {
+    opacity: 0.6;
+    cursor: default;
   }
 `;
 
@@ -41,11 +52,11 @@ export const SCard = styled.div`
   justify-content: center;
   width: 250px;
   height: 300px;
-  background-color: #dadde2;
+  background-color: #303030;
   border-radius: 8px;
-  color: whitesmoke;
   padding: 15px 0%;
   gap: 20px;
+  border: 1px solid #E2B659;
 
   img {
     height: 130px;
@@ -53,11 +64,11 @@ export const SCard = styled.div`
 
   p {
     font-weight: 700;
-    color: black;
+    color: #b1bdc5;
   }
 
   span {
     font-weight: 500;
-    color: #3a3430;
+    color: #E2B659;
   }
 `;

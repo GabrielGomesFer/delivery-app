@@ -1,6 +1,9 @@
 import axios from 'axios';
+import { Trash } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import { STable } from '../../../pages/Roles/Customer/Checkout/styles';
+import { SCheckout } from '../../Customer/CheckoutProducts/styles';
 
 function UserTable({ usersState }) {
   const { users, setUsers } = usersState;
@@ -38,7 +41,7 @@ function UserTable({ usersState }) {
   };
 
   return (
-    <table>
+    <STable>
       <thead>
         <tr>
           <th>Item</th>
@@ -50,7 +53,7 @@ function UserTable({ usersState }) {
       </thead>
       <tbody>
         {users.map(({ id, name, email, role }, i) => (
-          <tr key={ i }>
+          <SCheckout key={ i }>
             <td
               data-testid={ `admin_manage__element-user-table-item-number-${i}` }
             >
@@ -78,13 +81,13 @@ function UserTable({ usersState }) {
                 type="button"
                 onClick={ () => handleClick(id) }
               >
-                Excluir
+                <Trash size={ 20 } color="#ff0000" style={ { cursor: 'pointer' } } />
               </button>
             </td>
-          </tr>
+          </SCheckout>
         ))}
       </tbody>
-    </table>
+    </STable>
   );
 }
 

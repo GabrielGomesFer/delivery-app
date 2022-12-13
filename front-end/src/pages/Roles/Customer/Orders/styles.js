@@ -14,11 +14,13 @@ export const SOrdersWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 30px;
-  width: 320px;
+  width: 350px;
   height: 80px;
-  border: 1px solid black;
+  border: 1px solid #E2B659;
+  background-color: #303030;
   font-weight: 700;
-  color: black;
+  color: #b1bdc5;
+  border-radius: 4px;
 `;
 
 export const SRequestId = styled.div`
@@ -28,6 +30,15 @@ export const SRequestId = styled.div`
 `;
 
 export const SRequestStatus = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 7px;
+
+  span {
+    font-size: 10px;
+    font-weight: 700;
+  }
 `;
 
 export const SRequestDetails = styled.div`

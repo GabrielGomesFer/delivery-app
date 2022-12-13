@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CheckoutProducts from '../../../components/Customer/CheckoutProducts';
 import Header from '../../../components/Header';
-import useAppData from '../../../context/hooks/useAppData';
-import { readCart } from '../../../localstorage';
+import { SH1, STable, STotalValue } from '../Customer/Checkout/styles';
+import { SRequestInfos } from '../Customer/Orders/idStyles';
 
 function SellerId() {
-  const { totalPrice, totalValue } = useAppData();
   const { id } = useParams();
   const [infos, setInfos] = useState(null);
-  const [getStatus, setGetStatus] = useState('Pendente');
+  const [getStatus, setGetStatus] = useState('');
+  const [newTotalValue, setNewTotalValue] = useState(0);
 
   const TEST_ID = 'seller_order_details__element-order-details-label-delivery-status';
 
@@ -25,14 +25,14 @@ function SellerId() {
       })
       .then((response) => {
         const { data } = response;
+        setNewTotalValue(Number(data.totalPrice));
+        setGetStatus(data.status);
         setInfos(data);
-        const getCart = readCart();
-        totalValue(getCart);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  }, [id, token, totalValue]);
+  }, [id, token]);
 
   const updateOrder = (statusUpdated) => {
     axios
@@ -50,6 +50,7 @@ function SellerId() {
       .then((response) => {
         const { status } = response.data;
         setGetStatus(status);
+        console.log(status);
       })
       .catch((err) => {
         console.log(err.message);
@@ -59,9 +60,9 @@ function SellerId() {
   return (
     <div>
       <Header title="Pedidos" url="/seller/orders" />
-      <h1>Detalhes do Pedido</h1>
+      <SH1>Detalhes do Pedido</SH1>
       {infos && (
-        <div>
+        <SRequestInfos>
           <p
             data-testid="seller_order_details__element-order-details-label-order-id"
           >
@@ -82,20 +83,22 @@ function SellerId() {
               type="button"
               onClick={ () => updateOrder('Preparando') }
               data-testid="seller_order_details__button-preparing-check"
+              disabled={ getStatus !== 'Pendente' }
             >
               Preparar o Pedido
             </button>
             <button
               type="button"
-              onClick={ () => updateOrder('Entregue') }
+              onClick={ () => updateOrder('Em Trânsito') }
               data-testid="seller_order_details__button-dispatch-check"
+              disabled={ getStatus !== 'Preparando' }
             >
               Saiu para a Entrega
             </button>
           </div>
-        </div>
+        </SRequestInfos>
       )}
-      <table>
+      <STable>
         <thead>
           <tr>
             <th>Item</th>
@@ -103,7 +106,6 @@ function SellerId() {
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
-            <th>Remover Item</th>
           </tr>
         </thead>
         <tbody>
@@ -133,16 +135,16 @@ function SellerId() {
             />
           ))}
         </tbody>
-      </table>
-      <div>
+      </STable>
+      <STotalValue>
         <p>Valor Total:</p>
         <p data-testid="seller_order_details__element-order-total-price">
-          {totalPrice?.toLocaleString(
+          {newTotalValue?.toLocaleString(
             'pt-BR',
             { style: 'currency', currency: 'BRL' },
           ) ?? '0,00'}
         </p>
-      </div>
+      </STotalValue>
     </div>
   );
 }

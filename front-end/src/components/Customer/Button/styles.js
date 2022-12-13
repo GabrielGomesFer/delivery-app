@@ -9,11 +9,14 @@ export const SButtonsWrapper = styled.div`
   button {
     background-color: transparent;
     border: none;
+    color: #E2B659
   }
 
   input {
     border: none;
     outline: none;
+    background-color: #262626;
+    color: #b1bdc5;
     padding: 5px;
     width: 30px;
     text-align: center;

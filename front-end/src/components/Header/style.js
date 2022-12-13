@@ -6,8 +6,9 @@ export const SHeader = styled.header`
   align-items: center;
   width: 100%;
   border-bottom: 1px solid #3a3430;
-  padding: 7px;
-  background-color: #889fa5;
+  padding: 10px;
+  background-color: #0D0D0D;
+  border-bottom: 1px solid #E2B659;
 `;
 
 export const SNavProducts = styled.div`
@@ -23,7 +24,7 @@ export const SNavProducts = styled.div`
   }
 
   a {
-    color: black
+    color: #b1bdc5;
   }
 
 `;
@@ -34,9 +35,8 @@ export const SUser = styled.div`
   justify-content: space-between;
   padding: 0 10px;
   font-weight: 700;
-  gap: 20px;
-  width: 500px;
-  color: black;
+  width: 300px;
+  color: #b1bdc5;
 
   div {
     display: flex;
@@ -47,6 +47,6 @@ export const SUser = styled.div`
   button {
     background-color: transparent;
     border: none;
-    color: #ff0000;
+    color: #b1bdc5;
   }
 `;

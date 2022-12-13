@@ -2,12 +2,18 @@ import styled from 'styled-components';
 
 export const SCheckout = styled.tr`
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  height: 40px;
-  font-size:16px;
+  text-align: center;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 500;
   width: 100%;
-  border: 1px solid black;
+  background-color: #b1bdc5;
+  color: black;
+
+  td {
+    width: 200px;
+  }
 
   button {
     border: none;
@@ -15,4 +21,7 @@ export const SCheckout = styled.tr`
   }
 `;
 
-export default SCheckout;
+export const STD = styled.td`
+  width: 500px;
+  align-items: center;
+`;

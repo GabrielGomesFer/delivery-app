@@ -7,7 +7,7 @@ export const SLoginWrapper = styled.div`
   align-items: center;
   gap: 10px;
   overflow: hidden;
-  background-color: white;
+  background-color: #262626;
 `;
 
 export const SImg = styled.div`
@@ -16,7 +16,6 @@ export const SImg = styled.div`
   img {
     height: 100vh;
     width: 100%;
-    object-fit: cover;
   }
 
   @media (max-width: 414px) {
@@ -84,7 +83,6 @@ export const SLoginButtons = styled.div`
 
   button {
     width: 100%;
-    color: whitesmoke;
     padding: 14px 12px;
     border-radius: 10px;
     cursor: pointer;

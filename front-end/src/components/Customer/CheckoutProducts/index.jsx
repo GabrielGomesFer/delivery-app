@@ -1,7 +1,7 @@
 import { Trash } from 'phosphor-react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { SCheckout } from './styles';
+import { SCheckout, STD } from './styles';
 
 function CheckoutProducts({
   name,
@@ -22,9 +22,9 @@ function CheckoutProducts({
       <td data-testid={ dataTestIndex }>
         { i + 1 }
       </td>
-      <td data-testid={ dataTestDesc }>
+      <STD data-testid={ dataTestDesc }>
         { name }
-      </td>
+      </STD>
       <td data-testid={ dataTestQtd }>
         { qtd }
       </td>

@@ -8,6 +8,7 @@ import Checkout from './pages/Roles/Customer/Checkout';
 import MyOrders from './pages/Roles/Customer/Orders/MyOrders';
 import OrdersId from './pages/Roles/Customer/Orders/OrderId';
 import Products from './pages/Roles/Customer/Products';
+import SellerId from './pages/Roles/Seller/SellerId';
 import SellerOrders from './pages/Roles/Seller/SellerOrders';
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
       <Route path="/customer/checkout" component={ Checkout } />
       <Route exact path="/customer/orders" component={ MyOrders } />
       <Route path="/customer/orders/:id" component={ OrdersId } />
-      <Route path="/seller/orders" component={ SellerOrders } />
+      <Route exact path="/seller/orders" component={ SellerOrders } />
+      <Route path="/seller/orders/:id" component={ SellerId } />
       <Route path="/admin/manage" component={ AdminManage } />
     </Switch>
   );
