@@ -4,7 +4,7 @@ import CheckoutProducts from '../../../../components/Customer/CheckoutProducts';
 import Header from '../../../../components/Header';
 import useAppData from '../../../../context/hooks/useAppData';
 import { deleteProducts, readCart } from '../../../../localstorage';
-import { SContainerCustomer, STotalValue } from './styles';
+import { STable, STotalValue, SH1 } from './styles';
 
 function CustomerCheckout() {
   const { totalPrice, totalValue } = useAppData();
@@ -22,10 +22,10 @@ function CustomerCheckout() {
   };
 
   return (
-    <SContainerCustomer>
+    <>
       <Header title="Produtos" url="/customer/products" />
-      <h1>Finalizar Pedido</h1>
-      <table>
+      <SH1>Finalizar Pedido</SH1>
+      <STable>
         <thead>
           <tr>
             <th>Item</th>
@@ -33,41 +33,38 @@ function CustomerCheckout() {
             <th>Quantidade</th>
             <th>Valor Unitário</th>
             <th>Sub-total</th>
-            <th>Remover Item</th>
+            <th>Remover</th>
           </tr>
         </thead>
         <tbody>
-          {
-            getCartProducts?.map(({ urlImage, id, name, price, newPrice, qtd }, i) => (
-              <CheckoutProducts
-                urlImage={ urlImage }
-                name={ name }
-                price={ price }
-                newPrice={ newPrice }
-                qtd={ qtd }
-                i={ i }
-                removeProduct={ () => removeProduct(id) }
-                dataTestIndex={
-                  `customer_checkout__element-order-table-item-number-${i}`
-                }
-                dataTestDesc={
-                  `customer_checkout__element-order-table-name-${i}`
-                }
-                dataTestQtd={
-                  `customer_checkout__element-order-table-quantity-${i}`
-                }
-                dataTestVU={
-                  `customer_checkout__element-order-table-unit-price-${i}`
-                }
-                dataTestSub={
-                  `customer_checkout__element-order-table-sub-total-${i}`
-                }
-                key={ i }
-              />
-            ))
-          }
+          {getCartProducts?.map(({ id, name, price, newPrice, qtd }, i) => (
+            <CheckoutProducts
+              name={ name }
+              price={ price }
+              newPrice={ newPrice }
+              qtd={ qtd }
+              i={ i }
+              removeProduct={ () => removeProduct(id) }
+              dataTestIndex={
+                `customer_checkout__element-order-table-item-number-${i}`
+              }
+              dataTestDesc={
+                `customer_checkout__element-order-table-name-${i}`
+              }
+              dataTestQtd={
+                `customer_checkout__element-order-table-quantity-${i}`
+              }
+              dataTestVU={
+                `customer_checkout__element-order-table-unit-price-${i}`
+              }
+              dataTestSub={
+                `customer_checkout__element-order-table-sub-total-${i}`
+              }
+              key={ i }
+            />
+          ))}
         </tbody>
-      </table>
+      </STable>
       <STotalValue>
         <p>Valor Total:</p>
         <p
@@ -80,7 +77,7 @@ function CustomerCheckout() {
         </p>
       </STotalValue>
       <Address />
-    </SContainerCustomer>
+    </>
   );
 }
 

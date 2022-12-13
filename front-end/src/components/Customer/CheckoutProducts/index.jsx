@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { SCheckout } from './styles';
 
 function CheckoutProducts({
-  urlImage,
   name,
   price,
   newPrice,
@@ -20,9 +19,6 @@ function CheckoutProducts({
   const history = useHistory();
   return (
     <SCheckout>
-      <td>
-        <img src={ urlImage } alt={ name } height="100px" />
-      </td>
       <td data-testid={ dataTestIndex }>
         { i + 1 }
       </td>
@@ -58,7 +54,6 @@ function CheckoutProducts({
 
 CheckoutProducts.propTypes = {
   name: PropTypes.string.isRequired,
-  urlImage: PropTypes.string.isRequired,
   price: PropTypes.string.isRequired,
   newPrice: PropTypes.number.isRequired,
   qtd: PropTypes.number.isRequired,

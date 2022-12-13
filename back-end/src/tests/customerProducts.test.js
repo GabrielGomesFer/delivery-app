@@ -57,7 +57,7 @@ describe('Testes backend endpoint /Gets', () => {
             .get('/product').set("Authorization", 'Invalid token');
 
             expect(httpResponse.status).to.equal(401);
-            expect(httpResponse.body).to.be.deep.equal({ message: "Token not found" });    
+            expect(httpResponse.body).to.be.deep.equal({ message: "Invalid token" });    
         })
         it('Erro de token cliente', async () => {
             const httpResponse = await chai
