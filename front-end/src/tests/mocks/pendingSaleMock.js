@@ -2,7 +2,7 @@ const saleOne = {
   id: 1,
   totalPrice: '0.00',
   saleDate: '2022-12-06T21:09:06.000Z',
-  status: 'Em Trânsito',
+  status: 'Pendente',
   seller: {
     id: 1,
     name: 'Delivery App Admin',

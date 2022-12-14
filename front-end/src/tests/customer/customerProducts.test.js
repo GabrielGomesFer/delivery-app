@@ -55,8 +55,8 @@ describe('Test Products', () => {
     });
 
     it('Test buttons of products', async () => {
-      const { history } = renderWithRouter(<App />);
       localStorage.setItem('user', JSON.stringify(userLS));
+      const { history } = renderWithRouter(<App />);
 
       history.push('/');
 
