@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helper/renderWithRouter';
 import App from '../../App';
 
@@ -9,10 +10,52 @@ import saleOne from '../mocks/saleIdMock';
 
 jest.mock('axios');
 
+const ArrivedSale = {
+  id: 1,
+  totalPrice: '0.00',
+  saleDate: '2022-12-06T21:09:06.000Z',
+  status: 'Entregue',
+  seller: {
+    id: 1,
+    name: 'Delivery App Admin',
+    email: 'adm@deliveryapp.com',
+    role: 'administrator',
+  },
+  products: [
+    {
+      id: 1,
+      name: 'Skol Lata 250ml',
+      price: '2.20',
+      urlImage: 'http://localhost:3001/images/skol_lata_350ml.jpg',
+      SaleProduct: {
+        quantity: 2,
+      },
+    },
+    {
+      id: 2,
+      name: 'Heineken 600ml',
+      price: '7.50',
+      urlImage: 'http://localhost:3001/images/heineken_600ml.jpg',
+      SaleProduct: {
+        quantity: 5,
+      },
+    },
+    {
+      id: 4,
+      name: 'Brahma 600ml',
+      price: '7.50',
+      urlImage: 'http://localhost:3001/images/brahma_600ml.jpg',
+      SaleProduct: {
+        quantity: 1,
+      },
+    },
+  ],
+};
+
 describe('Test Products', () => {
   describe('Testa funcionamento da página de produtos', () => {
     it('add 2, go to checkout and finish', async () => {
-      axios.get.mockImplementation(async () => Promise.resolve(
+      axios.get.mockImplementation(() => Promise.resolve(
         { data: saleOne },
       ));
 
@@ -52,7 +95,7 @@ describe('Test Products', () => {
       const totalPrice = await screen
         .findByTestId('customer_order_details__element-order-total-price');
 
-      const deliverystatus = await screen
+      let deliverystatus = await screen
         .findByTestId(
           'customer_order_details__element-order-details-label-delivery-status',
         );
@@ -64,6 +107,9 @@ describe('Test Products', () => {
       expect(tableSubTotal).toBeInTheDocument();
       expect(totalPrice).toBeInTheDocument();
       expect(deliverystatus).toBeInTheDocument();
+
+      // console.log(deliverystatus);
+      // expect(deliverystatus.value).toBe('Em trânsito');
 
       const orderId = await screen
         .findByTestId('customer_order_details__element-order-details-label-order-id');
@@ -77,6 +123,19 @@ describe('Test Products', () => {
       expect(orderId).toBeInTheDocument();
       expect(sellerName).toBeInTheDocument();
       expect(deliverycheck).toBeInTheDocument();
+
+      axios.put.mockImplementation(async () => Promise.resolve(
+        { data: ArrivedSale },
+      ));
+
+      expect(deliverycheck).not.toBeDisabled();
+
+      userEvent.click(deliverycheck);
+
+      deliverystatus = await screen
+        .findByTestId(
+          'customer_order_details__element-order-details-label-delivery-status',
+        );
 
       jest.clearAllMocks();
     });

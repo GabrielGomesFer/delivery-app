@@ -242,7 +242,7 @@ describe("Rota /sales", () => {
 
   it("get /sales return all sales", async () => {
     sinon.stub(Sale, "findAll").resolves(saleList);
-    sinon.stub(jwt, 'verify').resolves({ name: 'user', email: 'user@email.com', role: 'seller' });
+    sinon.stub(jwt, 'verify').returns({ name: 'fulana pereira', email: 'fulana@deliveryapp.com', role: 'seller' });
 
     const httpResponse = await chai.request(app)
     .get("/sales")
