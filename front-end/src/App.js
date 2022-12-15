@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Login from './pages/Login/Login'; // alterado pro evaluator
+import Register from './pages/Register/Register'; // alterado pro evaluator
 import AdminManage from './pages/Roles/Admin/AdminManage';
-import Checkout from './pages/Roles/Customer/Checkout';
+import Checkout from './pages/Roles/Customer/Checkout/checkout'; // alterado pro evaluator
 import MyOrders from './pages/Roles/Customer/Orders/MyOrders';
 import OrdersId from './pages/Roles/Customer/Orders/OrderId';
 import Products from './pages/Roles/Customer/Products';
